@@ -1,0 +1,4615 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Qkr! API",
+        "description": "Open API",
+        "termsOfService": "http:\/\/labs.mastercard.com"
+    },
+    "servers": [
+        "http:\/\/api.mastercard.com\/labs\/proxy\/qkr2\/internal\/api2"
+    ],
+    "paths": {
+        "\/orderAheadMenu\/orderAhead": {
+            "get": {
+                "summary": "Lists Order Ahead Menus",
+                "description": "Get OrderAhead menu",
+                "operationId": "OrderAheadMenuList",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "menuTypes",
+                        "in": "query",
+                        "description": "Menu Type (comma separated list from OrderAtTable, Collection, Delivery)"
+                    },
+                    {
+                        "name": "merchantName",
+                        "in": "query",
+                        "description": "Merchant name"
+                    },
+                    {
+                        "name": "orderTime",
+                        "in": "query",
+                        "description": "Order Time (millis since epoch)"
+                    },
+                    {
+                        "name": "siteName",
+                        "in": "query",
+                        "description": "Site name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$href": "#\/components\/schemas\/GetPosMenusResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/merchant": {
+            "get": {
+                "summary": "Lists Merchants",
+                "description": "Lists merchants belonging to the calling partner",
+                "operationId": "MerchantList",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "description": "Latitude coordinate of the required merchants.  If no latitude or longitude are supplied, all merchants configured for the calling partner will be returned"
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "Longitude coordinate of the required merchants.  If no latitude or longitude are supplied, all merchants configured for the calling partner will be returned"
+                    },
+                    {
+                        "name": "queryString",
+                        "in": "query",
+                        "description": "Filter outlet by checking if merchant and outlet's name contains the queryString .  If no queryString is supplied, all merchants configured for the calling partner will be returned"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$href": "#\/components\/schemas\/GetPosMenusResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/order\/pat": {
+            "post": {
+                "summary": "Create An Order",
+                "description": "Creates a new order on the POS for Pay at Table",
+                "operationId": "OrderCreate",
+                "deprecated": 0,
+                "parameters": []
+            }
+        },
+        "\/auth\/payment": {
+            "post": {
+                "summary": "Creates An Authorization",
+                "description": "Creates an authorization against a payment card for the specified amount.  This method returns an authCode that must be used when doing the capture of the payment on the card.",
+                "operationId": "AuthCreate",
+                "deprecated": 0,
+                "parameters": []
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ApiPosOrderCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "shortReference": {
+                        "description": "The short code customer shares with the waiter. Waiter enters that code at the till to link the order at the till with Qkr.",
+                        "type": "string"
+                    },
+                    "outletId": {
+                        "description": "Outlet id where the order is created",
+                        "type": "string"
+                    }
+                }
+            },
+            "AddCardCommand": {
+                "type": "object",
+                "properties": {
+                    "addressCountry": {
+                        "description": "Country of the card holder",
+                        "type": "string"
+                    },
+                    "addressZip": {
+                        "description": "Postal code of the cardholder. The postal code size is between 5 and 9 in length and only contain numbers or letters",
+                        "type": "string"
+                    },
+                    "addressState": {
+                        "description": "State of the card holder address",
+                        "type": "string"
+                    },
+                    "cvc": {
+                        "description": "CVC security code of the card. This is the code on the back of the card. Example: 123",
+                        "type": "string"
+                    },
+                    "expMonth": {
+                        "description": "Expiration month of the card. Format is MM. Example: January = 01",
+                        "type": "integer"
+                    },
+                    "isDefault": {
+                        "description": "Indicates if this is the default card for this user",
+                        "type": "boolean"
+                    },
+                    "expYear": {
+                        "description": "Expiration year of the card. Format is YY. Example: 2013 = 13",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "addressLine1": {
+                        "description": "Line 1 of the card holder address",
+                        "type": "string"
+                    },
+                    "alias": {
+                        "description": "Alias of the card",
+                        "type": "string"
+                    },
+                    "addressLine2": {
+                        "description": "Line 2 of the card holder address",
+                        "type": "string"
+                    },
+                    "addressLine3": {
+                        "description": "Line 3 of the card holder address",
+                        "type": "string"
+                    },
+                    "pan": {
+                        "description": "Primary account number of the card",
+                        "type": "string"
+                    },
+                    "addressCity": {
+                        "description": "City of the card holder",
+                        "type": "string"
+                    }
+                }
+            },
+            "Customer": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "phone": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosPlacedOrderDetails": {
+                "type": "object",
+                "properties": {
+                    "posOrderReferenceId": {
+                        "description": "ID of the placed order in the POS",
+                        "type": "string"
+                    },
+                    "posOrderConfirmationCode": {
+                        "description": "Confirmation code of the placed order in the POS",
+                        "type": "string"
+                    }
+                }
+            },
+            "OrderCalendarDayBeneficiaryResponse": {
+                "type": "object",
+                "properties": {
+                    "transItems": {
+                        "description": "List of transaction items",
+                        "type": "array"
+                    },
+                    "cartItems": {
+                        "description": "List of cart items",
+                        "type": "array"
+                    },
+                    "beneficiaryId": {
+                        "description": "ID of the beneficiary",
+                        "type": "string"
+                    }
+                }
+            },
+            "transItems": {
+                "type": "array"
+            },
+            "cartItems": {
+                "type": "array"
+            },
+            "FormElementCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "value": {
+                        "description": "The user-input value for the corresponding form element",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosOrderDiscount": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "description": "Amount of discount that was applied",
+                        "type": "integer"
+                    },
+                    "code": {
+                        "description": "Code of the discount that was applied",
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "Type of discount that was applied",
+                        "type": "string"
+                    }
+                }
+            },
+            "TransactionItemResponse": {
+                "type": "object",
+                "properties": {
+                    "historicalPurchaseData": {
+                        "description": "Historical purchase information for the transaction item",
+                        "type": ""
+                    },
+                    "amount": {
+                        "description": "Total amount plus tax of the transaction item, in minor units e.g. cents",
+                        "type": ""
+                    },
+                    "purchaseNote": {
+                        "description": "An arbitrary note sent with the purchase",
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "taxBreakDown": {
+                        "description": "List of tax components associated with the transaction item",
+                        "type": "array"
+                    },
+                    "productData": {
+                        "description": "Information about the purchased product associated with the transaction item",
+                        "type": ""
+                    },
+                    "productGroupName": {
+                        "description": "The name of the ProdGroup to which this transaction item is associated",
+                        "type": "string"
+                    },
+                    "refundStatus": {
+                        "description": "Status of a refund.  Possible values are 'P' for partially refunded and 'F' for fully refunded",
+                        "type": "string"
+                    },
+                    "subTotal": {
+                        "description": "Total amount of the transaction minus tax, in minor units e.g. cents",
+                        "type": "integer"
+                    },
+                    "taxName": {
+                        "description": "Name of the tax paid on the transaction item",
+                        "type": "string"
+                    },
+                    "totalAmount": {
+                        "description": "Total amount of the transaction item",
+                        "type": "integer"
+                    },
+                    "prodGroupId": {
+                        "description": "ID of the ProdGroup to which this transaction item is associated",
+                        "type": "string"
+                    },
+                    "refundHistoryItems": {
+                        "description": "Refund history for a transaction item (to keep track of partial refunds)",
+                        "type": "array"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "variantId": {
+                        "description": "ID of the product variant purchased in the transaction item",
+                        "type": "string"
+                    },
+                    "deliveryDate": {
+                        "description": "Delivery date of this transaction item",
+                        "type": "integer"
+                    },
+                    "taxAmount": {
+                        "description": "Transaction tax amount in minor units e.g. cent",
+                        "type": "integer"
+                    },
+                    "userSelections": {
+                        "description": "Product selections made by the user for the transaction item",
+                        "type": "array"
+                    },
+                    "beneficiaryId": {
+                        "description": "ID of the beneficiary associated with this transaction item",
+                        "type": "integer"
+                    },
+                    "HistoricalPurchaseResponse": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "AmountResponse": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "ProductResponse": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "historicalPurchaseData": {
+                "type": "object"
+            },
+            "amount": {
+                "type": "object"
+            },
+            "taxBreakDown": {
+                "type": "array"
+            },
+            "productData": {
+                "type": "object"
+            },
+            "refundHistoryItems": {
+                "type": "array"
+            },
+            "userSelections": {
+                "type": "array"
+            },
+            "LightboxUserInteractionResponse": {
+                "type": "object",
+                "properties": {
+                    "paramsJson": {
+                        "description": "The parameters for the lightbox action in JSON string format",
+                        "type": "string"
+                    },
+                    "action": {
+                        "description": "The name of the action the User completed at the Lightbox URL. Examples are LOGIN_SUCCESS, REGISTER_SUCCESS, EXPRESS_CHECKOUT_AGREED, CHECKOUT_SUCCESS etc.",
+                        "type": "string"
+                    },
+                    "params": {
+                        "description": "*DEPRECATED* The parameters for the Lightbox action",
+                        "type": "string"
+                    }
+                }
+            },
+            "GetCreditNoteAmountCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "DepartmentResponse": {
+                "type": "object",
+                "properties": {
+                    "isDeleted": {
+                        "description": "Determines if the department is deleted",
+                        "type": "boolean"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "isOffline": {
+                        "description": "Determines if the department is offline",
+                        "type": "boolean"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "prodGroupSummaries": {
+                        "description": "List of prod group (menu) summaries associated with the department. Use the IDs of these to retrieve full prod group information via the GET ProdGroup API",
+                        "type": "array"
+                    }
+                }
+            },
+            "prodGroupSummaries": {
+                "type": "array"
+            },
+            "DeleteCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "AmountResponse": {
+                "type": "object",
+                "properties": {
+                    "amountMinorUnits": {
+                        "description": "Amount in minor units e.g. cents",
+                        "type": "integer"
+                    },
+                    "currency": {
+                        "description": "Currency code (ISO-4217) associated with the amount",
+                        "type": "string"
+                    }
+                }
+            },
+            "BeneficiaryResponse": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "beneficiaryCustomFieldValues": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "gender": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "middleName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "string"
+                    }
+                }
+            },
+            "beneficiaryCustomFieldValues": {
+                "type": "array"
+            },
+            "GetProdGroupCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "CreatePosOrderResponse": {
+                "type": "object",
+                "properties": {
+                    "orderId": {
+                        "description": "This is the orderId. Use the orderId for subsequent API requests for this Order",
+                        "type": "string"
+                    },
+                    "message": {
+                        "description": "Success if the till order is linked to Qkr",
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateCardCommand": {
+                "type": "object",
+                "properties": {
+                    "addressCountry": {
+                        "description": "Country of the card holder",
+                        "type": "string"
+                    },
+                    "deviceType": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "addressZip": {
+                        "description": "Postal code of the cardholder. The postal code size is between 5 and 9 in length and only contain numbers or letters",
+                        "type": "string"
+                    },
+                    "addressState": {
+                        "description": "State of the card holder address",
+                        "type": "string"
+                    },
+                    "deviceId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cvc": {
+                        "description": "CVC security code of the card. This is the code on the back of the card. Example: 123",
+                        "type": "string"
+                    },
+                    "expMonth": {
+                        "description": "Expiration month of the card. Format is MM. Example: January = 01",
+                        "type": "integer"
+                    },
+                    "isDefault": {
+                        "description": "Indicates if this is the default card for this user",
+                        "type": "boolean"
+                    },
+                    "expYear": {
+                        "description": "Expiration year of the card. Format is YY. Example: 2013 = 13",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "addressLine1": {
+                        "description": "Line 1 of the card holder address",
+                        "type": "string"
+                    },
+                    "alias": {
+                        "description": "Alias of the card",
+                        "type": "string"
+                    },
+                    "addressLine2": {
+                        "description": "Line 2 of the card holder address",
+                        "type": "string"
+                    },
+                    "addressLine3": {
+                        "description": "Line 3 of the card holder address",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "pan": {
+                        "description": "Primary account number of the card",
+                        "type": "string"
+                    },
+                    "addressCity": {
+                        "description": "City of the card holder",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiOrderTotalCommand": {
+                "type": "object",
+                "properties": {
+                    "orderType": {
+                        "description": "Order type that is applied to the calculation. Valid types are 'COLLECTION' and 'DELIVERY'",
+                        "type": "string"
+                    },
+                    "orderTime": {
+                        "description": "Time of order in UTC milliseconds",
+                        "type": "integer"
+                    },
+                    "siteName": {
+                        "description": "Name of the site to perform calculations on",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    },
+                    "products": {
+                        "description": "List of product items to add to the calculation",
+                        "type": "array"
+                    }
+                }
+            },
+            "products": {
+                "type": "array"
+            },
+            "OptionResponse": {
+                "type": "object",
+                "properties": {
+                    "paymentAdjust": {
+                        "description": "The amount in minor units of the option",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "selectedByDefault": {
+                        "description": "Determines if the option is selected by default",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "CreateUserResponse": {
+                "type": "object",
+                "properties": {
+                    "cardId": {
+                        "description": "ID of the card added as part of the registration.  This will only be set when a card is created as part of the user create API",
+                        "type": "string"
+                    },
+                    "internalAccountId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "callbackUrl": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "accessToken": {
+                        "description": "Container for access token values such as token and expires",
+                        "type": ""
+                    },
+                    "TokenResponse": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "accessToken": {
+                "type": "object"
+            },
+            "ApiVerifyOTPCommand": {
+                "type": "object",
+                "properties": {
+                    "verifierType": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "verifierValue": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "countryCode": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "otpToken": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "otp": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "ClosePatOrderResponse": {
+                "type": "object",
+                "properties": {
+                    "closed": {
+                        "description": "True if order was closed. False if order is still open",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "UpdateCartItemResponse": {
+                "type": "object",
+                "properties": {
+                    "cartId": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiRefundCommand": {
+                "type": "object",
+                "properties": {
+                    "reason": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "transId": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "paymentProcessorRef": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "amountMinorUnits": {
+                        "description": "Amount in minor units e.g. cents",
+                        "type": "integer"
+                    }
+                }
+            },
+            "GetOrderCalendarCommand": {
+                "type": "object",
+                "properties": {
+                    "startTime": {
+                        "description": "Start time for fetching the order calendar",
+                        "type": "integer"
+                    },
+                    "endTime": {
+                        "description": "End time for fetching the order calendar",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiPaymentAuthCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "description": "Amount of discount that was applied",
+                        "type": "integer"
+                    },
+                    "cardId": {
+                        "description": "ID of the card added as part of the registration.  This will only be set when a card is created as part of the user create API",
+                        "type": "string"
+                    },
+                    "outletId": {
+                        "description": "",
+                        "type": "integer"
+                    }
+                }
+            },
+            "FormElementResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "label": {
+                        "description": "Label of the form element",
+                        "type": "string"
+                    },
+                    "position": {
+                        "description": "Position of the form element",
+                        "type": "integer"
+                    },
+                    "choices": {
+                        "description": "Choices for the form element",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "Type of discount that was applied",
+                        "type": "string"
+                    },
+                    "value": {
+                        "description": "The user-input value for the corresponding form element",
+                        "type": "string"
+                    },
+                    "required": {
+                        "description": "True if the form element is mandatory",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "choices": {
+                "type": "array"
+            },
+            "CreateTransResponse": {
+                "type": "object",
+                "properties": {
+                    "ref": {
+                        "description": "Unique Qkr reference of the transaction",
+                        "type": "string"
+                    },
+                    "transShortCode": {
+                        "description": "A short term identifier for an order (transaction) at an outlet, unique for one day and then resets",
+                        "type": "string"
+                    },
+                    "maskedPan": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cardHolderName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "bin": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "gatewayRef": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "masterPassAppLibLiteApiToken": {
+                        "description": "Oltio library token",
+                        "type": "string"
+                    },
+                    "expressCheckoutAgreed": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "thankYouMessage": {
+                        "description": "Thank you message",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "masterPassAppToken": {
+                        "description": "Token from Oltio for bank app",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosOrderMenuItem": {
+                "type": "object",
+                "properties": {
+                    "isDiscounted": {
+                        "description": "Determines if the menu item is discounted",
+                        "type": "boolean"
+                    },
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "isRefunded": {
+                        "description": "Determines if the menu item was refunded",
+                        "type": "boolean"
+                    },
+                    "itemCode": {
+                        "description": "Menu item reference code in POS",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Description of the menu item",
+                        "type": "string"
+                    },
+                    "rawName": {
+                        "description": "The menu item name retrieved from the POS",
+                        "type": "string"
+                    },
+                    "groupName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "subItems": {
+                        "description": "Menu items contained within this menu item",
+                        "type": "array"
+                    },
+                    "priceMinorUnits": {
+                        "description": "Item price after any adjustments e.g. after discount",
+                        "type": "integer"
+                    },
+                    "isCondiment": {
+                        "description": "Determines if the menu item is a condiment",
+                        "type": "boolean"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "variant": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "originalPriceMinorUnits": {
+                        "description": "Original item price",
+                        "type": "integer"
+                    },
+                    "PosProductVariant": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "subItems": {
+                "type": "array"
+            },
+            "variant": {
+                "type": "object"
+            },
+            "ApiPatPosNotificationCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "description": "Amount of discount that was applied",
+                        "type": "integer"
+                    },
+                    "orderId": {
+                        "description": "This is the orderId. Use the orderId for subsequent API requests for this Order",
+                        "type": "string"
+                    },
+                    "tip": {
+                        "description": "The tip amount, in minor units, to notify the POS of",
+                        "type": "integer"
+                    },
+                    "paymentTypeId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Description of the menu item",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiPosOrderPaymentCommand": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "description": "Amount of discount that was applied",
+                        "type": "integer"
+                    },
+                    "code": {
+                        "description": "Code of the discount that was applied",
+                        "type": "string"
+                    },
+                    "paymentType": {
+                        "description": "Type of payment that was made",
+                        "type": "string"
+                    }
+                }
+            },
+            "UserDetailResponse": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "extUserId": {
+                        "description": "External user ID.  This is usually the same as the userName",
+                        "type": "string"
+                    },
+                    "userName": {
+                        "description": "Unique username for the user",
+                        "type": "string"
+                    },
+                    "userId": {
+                        "description": "ID of the user",
+                        "type": "string"
+                    }
+                }
+            },
+            "ChoiceResponse": {
+                "type": "object",
+                "properties": {
+                    "isDefault": {
+                        "description": "Indicates if this is the default card for this user",
+                        "type": "boolean"
+                    },
+                    "label": {
+                        "description": "Label of the form element",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiResendOTPCommand": {
+                "type": "object",
+                "properties": {
+                    "otpToken": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateTransResponse": {
+                "type": "object",
+                "properties": {
+                    "collectionTime": {
+                        "description": "Estimated collection time by customer",
+                        "type": "integer"
+                    },
+                    "transactionId": {
+                        "description": "ID of the order (transaction)",
+                        "type": "integer"
+                    }
+                }
+            },
+            "BeneficiaryCustomFieldValueResponse": {
+                "type": "object",
+                "properties": {
+                    "bcfdValue": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "updateRequiredMessage": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "bcfdName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "bcfdType": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateCartItemCommand": {
+                "type": "object",
+                "properties": {
+                    "purchaseNote": {
+                        "description": "An arbitrary note sent with the purchase",
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "selectedOptions": {
+                        "description": "Additional product options selected by the user",
+                        "type": "array"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "variantId": {
+                        "description": "ID of the product variant purchased in the transaction item",
+                        "type": "string"
+                    }
+                }
+            },
+            "selectedOptions": {
+                "type": "array"
+            },
+            "BeneficiaryCustomField": {
+                "type": "object",
+                "properties": {
+                    "bcfdValue": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "updateRequiredMessage": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "bcfdName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "bcfdType": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateOrderAheadResponse": {
+                "type": "object",
+                "properties": {
+                    "PosPlacedOrderDetails": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "posPlacedOrderDetails": {
+                        "description": "Details of the placed order",
+                        "type": ""
+                    },
+                    "paymentProcessorRef": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "paymentAuthCode": {
+                        "description": "Auth Code of the payment, if card details or cardId was provided",
+                        "type": "string"
+                    }
+                }
+            },
+            "ProductResponse": {
+                "type": "object",
+                "properties": {
+                    "ageRestricted": {
+                        "description": "Determines if there is an age restriction on this product",
+                        "type": "boolean"
+                    },
+                    "smallDescription": {
+                        "description": "Small description of the product",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Description of the menu item",
+                        "type": "string"
+                    },
+                    "variants": {
+                        "description": "List of variants on this product",
+                        "type": "array"
+                    },
+                    "mediumImageUrl": {
+                        "description": "URL to the product image",
+                        "type": "string"
+                    },
+                    "availableDates": {
+                        "description": "Product availability dates as time_t in merchant timezone for next 2 weeks",
+                        "type": "array"
+                    },
+                    "form": {
+                        "description": "Form Details",
+                        "type": ""
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "optionSets": {
+                        "description": "List of option sets associated with this product",
+                        "type": "array"
+                    },
+                    "allowPurchaseNote": {
+                        "description": "Determines if a purchase note is allowed to be sent when buying this product",
+                        "type": "boolean"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "category": {
+                        "description": "Category of the product e.g. Food, Drink",
+                        "type": "string"
+                    },
+                    "shippingAddressRequired": {
+                        "description": "Determines if a shipping address is required when purchasing this product",
+                        "type": "boolean"
+                    },
+                    "FormResponse": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "variants": {
+                "type": "array"
+            },
+            "availableDates": {
+                "type": "array"
+            },
+            "form": {
+                "type": "object"
+            },
+            "optionSets": {
+                "type": "array"
+            },
+            "ApiPosOrderAmountsCommand": {
+                "type": "object",
+                "properties": {
+                    "autoServiceChargeMinorUnits": {
+                        "description": "How much is the service charge",
+                        "type": "integer"
+                    },
+                    "amountDueMinorUnits": {
+                        "description": "How much is outstanding",
+                        "type": "integer"
+                    },
+                    "discounts": {
+                        "description": "Applied discounts",
+                        "type": "array"
+                    },
+                    "otherServiceChargeMinorUnits": {
+                        "description": "How much is the other service charge",
+                        "type": "integer"
+                    },
+                    "payments": {
+                        "description": "Applied payments",
+                        "type": "array"
+                    },
+                    "subtotalMinorUnits": {
+                        "description": "Subtotal of all items",
+                        "type": "integer"
+                    },
+                    "tipPaidMinorUnits": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "paymentMinorUnits": {
+                        "description": "How much",
+                        "type": "integer"
+                    },
+                    "taxMinorUnits": {
+                        "description": "How much is tax",
+                        "type": "integer"
+                    }
+                }
+            },
+            "discounts": {
+                "type": "array"
+            },
+            "payments": {
+                "type": "array"
+            },
+            "ListCardResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "list": {
+                "type": "array"
+            },
+            "GetSecurityQuestionsResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "ApiPatOrderCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "tableIdentifier": {
+                        "description": "Table identifier to create the order on",
+                        "type": "string"
+                    },
+                    "siteName": {
+                        "description": "Name of the site to perform calculations on",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    }
+                }
+            },
+            "FormSubmissionResponse": {
+                "type": "object",
+                "properties": {
+                    "productImageUrl": {
+                        "description": "URL for the image of menu item",
+                        "type": "string"
+                    },
+                    "prodGroupName": {
+                        "description": "Name of the menu",
+                        "type": "string"
+                    },
+                    "paidBy": {
+                        "description": "Name of the user who paid for the menu item",
+                        "type": "string"
+                    },
+                    "cartId": {
+                        "description": "ID of the cart if the user has not paid for the menu item",
+                        "type": "integer"
+                    },
+                    "submittedDate": {
+                        "description": "Date when the form was submitted",
+                        "type": "integer"
+                    },
+                    "productName": {
+                        "description": "Name of the menu item",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    },
+                    "form": {
+                        "description": "Form Details",
+                        "type": ""
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "integer"
+                    },
+                    "beneficiaryName": {
+                        "description": "Name of the beneficiary for whom the form is submitted",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "ID of the form",
+                        "type": "integer"
+                    },
+                    "productDescription": {
+                        "description": "Description of the menu item",
+                        "type": "string"
+                    },
+                    "beneficiaryId": {
+                        "description": "ID of the beneficiary associated with this transaction item",
+                        "type": "integer"
+                    },
+                    "FormResponse": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "ApiLightboxCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "lastName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "language": {
+                        "description": "Language of the user. Optional, defaults to en",
+                        "type": "string"
+                    },
+                    "countryOfResidence": {
+                        "description": "Country code of the user in ISO 3166-1 Aplha-2 code format.  Required.",
+                        "type": "string"
+                    },
+                    "deviceId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "phoneNumberCountryCode": {
+                        "description": "Phone number country code of the end user. MasterPass users only. Optional",
+                        "type": "string"
+                    },
+                    "styleMp": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "checkoutType": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "products": {
+                        "description": "List of product items to add to the calculation",
+                        "type": "array"
+                    },
+                    "emailAddress": {
+                        "description": "Email address of the end user. Optional",
+                        "type": "string"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "string"
+                    },
+                    "action": {
+                        "description": "The name of the action the User completed at the Lightbox URL. Examples are LOGIN_SUCCESS, REGISTER_SUCCESS, EXPRESS_CHECKOUT_AGREED, CHECKOUT_SUCCESS etc.",
+                        "type": "string"
+                    },
+                    "callbackUrl": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "formId": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "delivery": {
+                        "description": "",
+                        "type": "boolean"
+                    },
+                    "tipAmount": {
+                        "description": "Tip in minor units (cents) user will be charged. Optional.",
+                        "type": "integer"
+                    },
+                    "cartId": {
+                        "description": "ID of the cart if the user has not paid for the menu item",
+                        "type": "integer"
+                    },
+                    "outletId": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "singleCallback": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "amountMinorUnits": {
+                        "description": "Amount in minor units e.g. cents",
+                        "type": "integer"
+                    },
+                    "expressCheckoutAgreed": {
+                        "description": "Prior approval from Qkr team is required to use this.",
+                        "type": "boolean"
+                    },
+                    "taxNumber": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "landing": {
+                        "description": "The page that the User arrives at. Can be either \"LOGIN\" or \"REGISTER\". Ignored if User is already authenticated or is accessing a seperate flow not to do with login or registration.",
+                        "type": "string"
+                    },
+                    "phoneNumber": {
+                        "description": "Phone number of the end user. MasterPass users only. Optional",
+                        "type": "string"
+                    },
+                    "nationalId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "termsAccepted": {
+                        "description": "",
+                        "type": "boolean"
+                    },
+                    "themeConfig": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "preTaxAmountMinorUnits": {
+                        "description": "Pre tax amount in minor units (cents). Optional.",
+                        "type": "integer"
+                    },
+                    "partnerTxId": {
+                        "description": "ANY unique identifier representing the order (item(s)) the User is paying for. Subsequent requests for payment with the same partnerTxId will receive an error response with code 'duplicate.purchase'",
+                        "type": "string"
+                    },
+                    "beneficiaryId": {
+                        "description": "ID of the beneficiary associated with this transaction item",
+                        "type": "integer"
+                    },
+                    "paymentOnly": {
+                        "description": "Boolean indicating lightbox is for payment",
+                        "type": "boolean"
+                    },
+                    "LightboxThemeConfigCommand": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "themeConfig": {
+                "type": "object"
+            },
+            "GetCreditNoteAmountResponse": {
+                "type": "object",
+                "properties": {
+                    "departmentCreditBalanceResponse": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "departmentCreditBalanceResponse": {
+                "type": "array"
+            },
+            "VariantDetailResponse": {
+                "type": "object",
+                "properties": {
+                    "variantLabel": {
+                        "description": "Label of the variant",
+                        "type": "string"
+                    },
+                    "visible": {
+                        "description": "Determines if the variant is visible or not.  Can be used to hide certain variants in some use cases",
+                        "type": "boolean"
+                    },
+                    "variantValue": {
+                        "description": "Value of the variant",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiTransUpdateCommand": {
+                "type": "object",
+                "properties": {
+                    "collectionTime": {
+                        "description": "Estimated collection time by customer",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "description": "ID of the form",
+                        "type": "integer"
+                    }
+                }
+            },
+            "ApiDeleteCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiForgotPasswordCommand": {
+                "type": "object",
+                "properties": {
+                    "emailAddress": {
+                        "description": "Email address of the end user. Optional",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiBeneficiaryCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "image": {
+                        "description": "Image of the beneficiary, base64 encoded string",
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "beneficiaryCustomFieldValues": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "gender": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "integer"
+                    },
+                    "middleName": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiDeviceIdentifierCommand": {
+                "type": "object",
+                "properties": {
+                    "deviceType": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "deviceOs": {
+                        "description": "Operation system of the device",
+                        "type": "string"
+                    },
+                    "deviceId": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "ExternalTransCreateResponse": {
+                "type": "object",
+                "properties": {
+                    "qkrRef": {
+                        "description": "A unique reference to be used to retrieve the stored transaction information",
+                        "type": "string"
+                    }
+                }
+            },
+            "AddCartItemResponse": {
+                "type": "object",
+                "properties": {
+                    "cartId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cartItemId": {
+                        "description": "ID of the created cart item",
+                        "type": "string"
+                    }
+                }
+            },
+            "LightboxThemeConfigCommand": {
+                "type": "object",
+                "properties": {
+                    "secondaryLogoId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "backgroundColor": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cardImgId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "accentColor": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "primaryColor": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "primaryLogoId": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "TransactionResponse": {
+                "type": "object",
+                "properties": {
+                    "collectionTime": {
+                        "description": "Estimated collection time by customer",
+                        "type": "integer"
+                    },
+                    "merchantLocName": {
+                        "description": "Name of the merchant outlet",
+                        "type": "string"
+                    },
+                    "orderNumber": {
+                        "description": "Internal order number for the transaction",
+                        "type": "string"
+                    },
+                    "timezone": {
+                        "description": "Time zone of the merchant outlet",
+                        "type": "string"
+                    },
+                    "merchantBusinessCategory": {
+                        "description": "Business category of the merchant",
+                        "type": "string"
+                    },
+                    "refundStatus": {
+                        "description": "Status of a refund.  Possible values are 'P' for partially refunded and 'F' for fully refunded",
+                        "type": "string"
+                    },
+                    "taxName": {
+                        "description": "Name of the tax paid on the transaction item",
+                        "type": "string"
+                    },
+                    "merchantRef": {
+                        "description": "Unique reference from the merchant for the transaction",
+                        "type": "string"
+                    },
+                    "ref": {
+                        "description": "Unique Qkr reference of the transaction",
+                        "type": "string"
+                    },
+                    "currency": {
+                        "description": "Currency code (ISO-4217) associated with the amount",
+                        "type": "string"
+                    },
+                    "shippingAmount": {
+                        "description": "Shipping amount in minor units e.g. cents",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "beneficiaries": {
+                        "description": "List of beneficiary profiles",
+                        "type": "array"
+                    },
+                    "shortCode": {
+                        "description": "A short term identifier for an order (transaction) at an outlet, unique for one day and then resets",
+                        "type": "string"
+                    },
+                    "transactionItems": {
+                        "description": "List of transaction items within this transaction",
+                        "type": "array"
+                    },
+                    "maskedPan": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cardHolderName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "tipAmount": {
+                        "description": "Tip in minor units (cents) user will be charged. Optional.",
+                        "type": "integer"
+                    },
+                    "refundReason": {
+                        "description": "The reason the order was refunded",
+                        "type": "string"
+                    },
+                    "readyForCollection": {
+                        "description": "Determines if the order is ready for collection",
+                        "type": "boolean"
+                    },
+                    "shippingMethod": {
+                        "description": "Shipping method provided by the merchant",
+                        "type": "string"
+                    },
+                    "paymentProcessorRef": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "merchantLocId": {
+                        "description": "ID of the merchant outlet",
+                        "type": "string"
+                    },
+                    "amountBeforeCoupons": {
+                        "description": "Transaction amount before coupons were applied",
+                        "type": "integer"
+                    },
+                    "refundedDate": {
+                        "description": "The date the transaction was refunded",
+                        "type": "integer"
+                    },
+                    "seat": {
+                        "description": "The delivery destination used in an order-to-seat transaction",
+                        "type": "string"
+                    },
+                    "taxRate": {
+                        "description": "Transaction tax rate",
+                        "type": "number"
+                    },
+                    "merchantOrderNumber": {
+                        "description": "Optional order number, used in the transaction, supplied by the merchant",
+                        "type": "string"
+                    },
+                    "totalOrderAmount": {
+                        "description": "Total amount of the transaction",
+                        "type": "integer"
+                    },
+                    "locatedScanId": {
+                        "description": "ID of the scannable item associated with the transaction",
+                        "type": "string"
+                    },
+                    "taxCalculationsEnabled": {
+                        "description": "Determines if tax calculations are enabled for the merchant",
+                        "type": "boolean"
+                    },
+                    "taxAmount": {
+                        "description": "Transaction tax amount in minor units e.g. cent",
+                        "type": "integer"
+                    },
+                    "fulfilledDate": {
+                        "description": "The date the transaction was fulfilled",
+                        "type": "integer"
+                    },
+                    "orderDate": {
+                        "description": "The date that the order\/transaction happened",
+                        "type": "integer"
+                    },
+                    "partnerTxId": {
+                        "description": "ANY unique identifier representing the order (item(s)) the User is paying for. Subsequent requests for payment with the same partnerTxId will receive an error response with code 'duplicate.purchase'",
+                        "type": "string"
+                    },
+                    "pricesSetPretax": {
+                        "description": "Determines if prices of items purchased were pre tax",
+                        "type": "boolean"
+                    },
+                    "status": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "beneficiaries": {
+                "type": "array"
+            },
+            "transactionItems": {
+                "type": "array"
+            },
+            "GetNearbyCommand": {
+                "type": "object",
+                "properties": {
+                    "latitude": {
+                        "description": "Latitude coordinate of the required merchants.  If no latitude or longitude are supplied, all merchants configured for the calling partner will be returned",
+                        "type": "string"
+                    },
+                    "queryString": {
+                        "description": "Filter outlet by checking if merchant and outlet's name contains the queryString .  If no queryString is supplied, all merchants configured for the calling partner will be returned",
+                        "type": "string"
+                    },
+                    "longitude": {
+                        "description": "Longitude coordinate of the required merchants.  If no latitude or longitude are supplied, all merchants configured for the calling partner will be returned",
+                        "type": "string"
+                    }
+                }
+            },
+            "LocaleResponse": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "label": {
+                        "description": "Label of the form element",
+                        "type": "string"
+                    }
+                }
+            },
+            "OutletResponse": {
+                "type": "object",
+                "properties": {
+                    "payAtTable": {
+                        "description": "Determines if this outlet provides a Pay-At-Table experience",
+                        "type": "boolean"
+                    },
+                    "address": {
+                        "description": "Outlet address",
+                        "type": "string"
+                    },
+                    "closedReason": {
+                        "description": "The reason the outlet is closed",
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "description": "Latitude of the outlet. If no latitude or longitude are supplied, all merchants configured for the calling partner will be returned",
+                        "type": "number"
+                    },
+                    "posType": {
+                        "description": "Point Of Sale system used by the outlet",
+                        "type": "string"
+                    },
+                    "isOpen": {
+                        "description": "Determines if the outlet is open",
+                        "type": "boolean"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "string"
+                    },
+                    "phone": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "imageUrl": {
+                        "description": "URL to the outlet image",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "iconUrl": {
+                        "description": "URL to the outlet icon",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "longitude": {
+                        "description": "Longitude of the outlet. If no latitude or longitude are supplied, all merchants configured for the calling partner will be returned",
+                        "type": "number"
+                    },
+                    "prodGroupSummaries": {
+                        "description": "List of prod group (menu) summaries associated with the department. Use the IDs of these to retrieve full prod group information via the GET ProdGroup API",
+                        "type": "array"
+                    }
+                }
+            },
+            "ShowCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "AddCartItemCommand": {
+                "type": "object",
+                "properties": {
+                    "purchaseNote": {
+                        "description": "An arbitrary note sent with the purchase",
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "locatedScanId": {
+                        "description": "ID of the scannable item associated with the transaction",
+                        "type": "string"
+                    },
+                    "selectedOptions": {
+                        "description": "Additional product options selected by the user",
+                        "type": "array"
+                    },
+                    "variantId": {
+                        "description": "ID of the product variant purchased in the transaction item",
+                        "type": "string"
+                    },
+                    "deliveryDate": {
+                        "description": "Delivery date of this transaction item",
+                        "type": "integer"
+                    },
+                    "beneficiaryId": {
+                        "description": "ID of the beneficiary associated with this transaction item",
+                        "type": "integer"
+                    }
+                }
+            },
+            "ApiOrderAheadMenuCommand": {
+                "type": "object",
+                "properties": {
+                    "orderTime": {
+                        "description": "Time of order in UTC milliseconds",
+                        "type": "integer"
+                    },
+                    "siteName": {
+                        "description": "Name of the site to perform calculations on",
+                        "type": "string"
+                    },
+                    "menuTypes": {
+                        "description": "Menu Type (comma separated list from OrderAtTable, Collection, Delivery)",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    }
+                }
+            },
+            "FormResponse": {
+                "type": "object",
+                "properties": {
+                    "isPaid": {
+                        "description": "True if form related product has been paid ",
+                        "type": "boolean"
+                    },
+                    "termsAndConditionsUrl": {
+                        "description": "URL for terms and conditions",
+                        "type": "string"
+                    },
+                    "isConsentRequired": {
+                        "description": "True if form requires user consent",
+                        "type": "boolean"
+                    },
+                    "formUrl": {
+                        "description": "URL of the form",
+                        "type": "string"
+                    },
+                    "formName": {
+                        "description": "Form name",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "updatedDate": {
+                        "description": "Updated date of the form",
+                        "type": "integer"
+                    },
+                    "formRequiresSignature": {
+                        "description": "True if form requires signature",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "ApiSelectedOptionCommand": {
+                "type": "object",
+                "properties": {
+                    "optionId": {
+                        "description": "Selected option identifier",
+                        "type": "string"
+                    },
+                    "customPaymentAdjust": {
+                        "description": "Payment adjustment if not predefined",
+                        "type": "integer"
+                    }
+                }
+            },
+            "CreateLightboxResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "url": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "PaymentAuthResponse": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "description": "Amount of discount that was applied",
+                        "type": "integer"
+                    },
+                    "authCode": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cardId": {
+                        "description": "ID of the card added as part of the registration.  This will only be set when a card is created as part of the user create API",
+                        "type": "string"
+                    },
+                    "gatewayRef": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "authId": {
+                        "description": "Authorization code that must be supplied to the capture API to capture the actual payment from the card",
+                        "type": "string"
+                    }
+                }
+            },
+            "ProdGroupSummaryResponse": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "totalCount": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "locatedScanId": {
+                        "description": "",
+                        "type": "integer"
+                    }
+                }
+            },
+            "UserSelectionResponse": {
+                "type": "object",
+                "properties": {
+                    "paymentAdjust": {
+                        "description": "The amount in minor units of the option",
+                        "type": "integer"
+                    },
+                    "label": {
+                        "description": "Label of the form element",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "Type of discount that was applied",
+                        "type": "string"
+                    },
+                    "value": {
+                        "description": "The user-input value for the corresponding form element",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiProductDataCommand": {
+                "type": "object",
+                "properties": {
+                    "subtotalMinorUnits": {
+                        "description": "Subtotal of all items",
+                        "type": "integer"
+                    },
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "productRefInPos": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "productName": {
+                        "description": "Name of the menu item",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosOption": {
+                "type": "object",
+                "properties": {
+                    "priceMinorUnits": {
+                        "description": "Item price after any adjustments e.g. after discount",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "position": {
+                        "description": "Position of the form element",
+                        "type": "integer"
+                    },
+                    "selectedByDefault": {
+                        "description": "Determines if the option is selected by default",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "TaxResponse": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "description": "Amount of discount that was applied",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "percent": {
+                        "description": "Tax component percentage",
+                        "type": "string"
+                    }
+                }
+            },
+            "ResendOTPResponse": {
+                "type": "object",
+                "properties": {
+                    "verifierType": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "otpToken": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "GetCountriesResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "ApiPosOrderCommand": {
+                "type": "object",
+                "properties": {
+                    "reference": {
+                        "description": "Order reference",
+                        "type": "string"
+                    },
+                    "ApiPosOrderAmountsCommand": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "amounts": {
+                        "description": "Total amount",
+                        "type": ""
+                    },
+                    "shouldAutoCharge": {
+                        "description": "This is the flag to inform Qkr if the order should be auto charged",
+                        "type": "boolean"
+                    },
+                    "isOrderClosed": {
+                        "description": "This is the flag to inform Qkr if the order is closed",
+                        "type": "boolean"
+                    },
+                    "menuItems": {
+                        "description": "The items contained in the order",
+                        "type": "array"
+                    }
+                }
+            },
+            "menuItems": {
+                "type": "array"
+            },
+            "GetPosMenusResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "HistoricalPurchaseResponse": {
+                "type": "object",
+                "properties": {
+                    "VariantDetailResponse": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "historicalVariantDetail": {
+                        "description": "Historical record of the product variant purchased in the transaction item",
+                        "type": ""
+                    },
+                    "sku": {
+                        "description": "Historical record of the name of the product SKU purchased in the transaction item",
+                        "type": "string"
+                    },
+                    "productName": {
+                        "description": "Name of the menu item",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiPosOrderDiscountCommand": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "description": "Amount of discount that was applied",
+                        "type": "integer"
+                    },
+                    "code": {
+                        "description": "Code of the discount that was applied",
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "Type of discount that was applied",
+                        "type": "string"
+                    }
+                }
+            },
+            "GetSecurityQuestionsCommand": {
+                "type": "object",
+                "properties": {
+                    "country": {
+                        "description": "Country ISO code security questions apply to",
+                        "type": "string"
+                    },
+                    "preferredLanguage": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "VariantResponse": {
+                "type": "object",
+                "properties": {
+                    "gtin": {
+                        "description": "Product Global Trade Item Number - product lookup standard",
+                        "type": "string"
+                    },
+                    "isDefault": {
+                        "description": "Indicates if this is the default card for this user",
+                        "type": "boolean"
+                    },
+                    "ean": {
+                        "description": "Product European\/International Article Number - a barcode standard",
+                        "type": "string"
+                    },
+                    "variantDetails": {
+                        "description": "List of variant details associated with the variant",
+                        "type": "array"
+                    },
+                    "amountMinorUnits": {
+                        "description": "Amount in minor units e.g. cents",
+                        "type": "integer"
+                    },
+                    "upc": {
+                        "description": "Product Universal Product Code - product scanning standard",
+                        "type": "string"
+                    },
+                    "currency": {
+                        "description": "Currency code (ISO-4217) associated with the amount",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "priority": {
+                        "description": "Positive integer that may be used to order variants",
+                        "type": "integer"
+                    },
+                    "sku": {
+                        "description": "Historical record of the name of the product SKU purchased in the transaction item",
+                        "type": "string"
+                    },
+                    "stockLevel": {
+                        "description": "The number of units in stock of the product variant",
+                        "type": "string"
+                    }
+                }
+            },
+            "variantDetails": {
+                "type": "array"
+            },
+            "CreateBeneficiaryResponse": {
+                "type": "object",
+                "properties": {
+                    "showNoMatchWarning": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "beneficiaryId": {
+                        "description": "ID of the beneficiary",
+                        "type": "string"
+                    }
+                }
+            },
+            "DeleteCardCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "TransactionSummaryResponse": {
+                "type": "object",
+                "properties": {
+                    "AmountResponse": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "tipAmountRefunded": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "collectionTime": {
+                        "description": "Estimated collection time by customer",
+                        "type": "integer"
+                    },
+                    "merchantLocName": {
+                        "description": "Name of the merchant outlet",
+                        "type": "string"
+                    },
+                    "merchantIconUrl": {
+                        "description": "Icon URL of the Merchant",
+                        "type": "string"
+                    },
+                    "tipAmount": {
+                        "description": "Amount of tip paid on the transaction",
+                        "type": ""
+                    },
+                    "pending": {
+                        "description": "Determines if the transaction is pending",
+                        "type": "boolean"
+                    },
+                    "merchantLocId": {
+                        "description": "ID of the merchant outlet",
+                        "type": "string"
+                    },
+                    "taxName": {
+                        "description": "Name of the tax paid on the transaction item",
+                        "type": "string"
+                    },
+                    "transactionId": {
+                        "description": "ID of the transaction",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    },
+                    "receiptName": {
+                        "description": "Receipt name for the transactionTra",
+                        "type": "string"
+                    },
+                    "totalAmountRefunded": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "taxRate": {
+                        "description": "Transaction tax rate",
+                        "type": "number"
+                    },
+                    "totalAmount": {
+                        "description": "Total amount of the transaction",
+                        "type": ""
+                    },
+                    "ref": {
+                        "description": "Unique Qkr reference of the transaction",
+                        "type": "string"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "string"
+                    },
+                    "receiptFooter": {
+                        "description": "Receipt footer information",
+                        "type": "string"
+                    },
+                    "cardAlias": {
+                        "description": "Alias of the card used in the transaction",
+                        "type": "string"
+                    },
+                    "taxAmount": {
+                        "description": "Transaction tax amount in minor units e.g. cent",
+                        "type": ""
+                    },
+                    "partnerTxId": {
+                        "description": "ANY unique identifier representing the order (item(s)) the User is paying for. Subsequent requests for payment with the same partnerTxId will receive an error response with code 'duplicate.purchase'",
+                        "type": "string"
+                    },
+                    "receiptHeader": {
+                        "description": "Receipt header information",
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "description": "The time that the transaction happened",
+                        "type": "integer"
+                    }
+                }
+            },
+            "BeneficiaryCustomFieldResponse": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "options": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "tooltip": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "label": {
+                        "description": "Label of the form element",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "Type of discount that was applied",
+                        "type": "string"
+                    },
+                    "mandatory": {
+                        "description": "",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "options": {
+                "type": "array"
+            },
+            "ApiShowCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosOrder": {
+                "type": "object",
+                "properties": {
+                    "reference": {
+                        "description": "Order reference",
+                        "type": "string"
+                    },
+                    "orderType": {
+                        "description": "Order type that is applied to the calculation. Valid types are 'COLLECTION' and 'DELIVERY'",
+                        "type": "string"
+                    },
+                    "reqFulfillmentDt": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "amounts": {
+                        "description": "Total amount",
+                        "type": ""
+                    },
+                    "shouldAutoCharge": {
+                        "description": "This is the flag to inform Qkr if the order should be auto charged",
+                        "type": "boolean"
+                    },
+                    "etaFulfillmentDt": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "isOrderClosed": {
+                        "description": "This is the flag to inform Qkr if the order is closed",
+                        "type": "boolean"
+                    },
+                    "menuItems": {
+                        "description": "The items contained in the order",
+                        "type": "array"
+                    },
+                    "createDt": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "Customer": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "customer": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "PosOrderAmounts": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "amounts": {
+                "type": "object"
+            },
+            "ApiUserUpdateCommand": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "phoneNumber": {
+                        "description": "Phone number of the end user. MasterPass users only. Optional",
+                        "type": "string"
+                    },
+                    "securityQuestion": {
+                        "description": "The security question chosen by the user.  MasterPass users only.  This field is optional.  The existing value will remain intact if no value is supplied",
+                        "type": "string"
+                    },
+                    "marketingConsent": {
+                        "description": "Indicates if the user has consented to receive marketing communications.  Qkr users only.  This field is optional.  The existing value will remain intact if no value is supplied",
+                        "type": "boolean"
+                    },
+                    "mobileValidationId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "taxNumber": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "masterPassMarketingConsent": {
+                        "description": "Indicates if the user consents to receive MasterPass marketing communications.  MasterPass users only.  This field is optional.  The existing value will remain intact if no value is supplied",
+                        "type": "boolean"
+                    },
+                    "automaticEmailReceipts": {
+                        "description": "Indicates if the user will receive an email after each purchase.  The default value is false",
+                        "type": "boolean"
+                    },
+                    "phoneNumberCountryCode": {
+                        "description": "Phone number country code of the end user. MasterPass users only. Optional",
+                        "type": "string"
+                    },
+                    "securityQuestionAnswer": {
+                        "description": "Security question answer.  MasterPass users only.  This field is optional.  The existing value will remain intact if no value is supplied",
+                        "type": "string"
+                    }
+                }
+            },
+            "GetFormSubmissionsResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "UserSessionResponse": {
+                "type": "object",
+                "properties": {
+                    "internalAccountId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "accessToken": {
+                        "description": "Container for access token values such as token and expires",
+                        "type": ""
+                    },
+                    "TokenResponse": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "QuestionResponse": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "description": "Question text",
+                        "type": "string"
+                    }
+                }
+            },
+            "SubmitFormCommand": {
+                "type": "object",
+                "properties": {
+                    "formId": {
+                        "description": "Id of form that is being submitted",
+                        "type": "string"
+                    },
+                    "beneficiaryId": {
+                        "description": "ID of the beneficiary",
+                        "type": "string"
+                    },
+                    "formElements": {
+                        "description": "The elements and values for the form that is being submitted",
+                        "type": "array"
+                    }
+                }
+            },
+            "formElements": {
+                "type": "array"
+            },
+            "ProductGroupResponse": {
+                "type": "object",
+                "properties": {
+                    "merchantIconUrl": {
+                        "description": "Icon URL of the Merchant",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Description of the menu item",
+                        "type": "string"
+                    },
+                    "merchantLocId": {
+                        "description": "ID of the merchant outlet",
+                        "type": "string"
+                    },
+                    "title": {
+                        "description": "Name of the product group e.g. Lunch, Drinks etc",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    },
+                    "products": {
+                        "description": "List of product items to add to the calculation",
+                        "type": "array"
+                    },
+                    "transactionType": {
+                        "description": "Type of transactions handled.  This value is always 'BUY'",
+                        "type": "string"
+                    },
+                    "shippingRequired": {
+                        "description": "Determines if shipping is required for this product group",
+                        "type": "boolean"
+                    },
+                    "termsUrl": {
+                        "description": "URL of the product group terms",
+                        "type": "string"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "string"
+                    },
+                    "countryCode": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "ageRestrictedMessage": {
+                        "description": "Message used to confirm age",
+                        "type": "string"
+                    },
+                    "imageUrl": {
+                        "description": "URL to the outlet image",
+                        "type": "string"
+                    },
+                    "locatedScanId": {
+                        "description": "ID of the scannable item associated with the transaction",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "merchantWideImageUrl": {
+                        "description": "URL to the Merchant image",
+                        "type": "string"
+                    },
+                    "unitPricePreTax": {
+                        "description": "Determines if product group prices are pre-tax",
+                        "type": "boolean"
+                    },
+                    "requiresDeliveryDate": {
+                        "description": "Determines if delivery date is required for this product group",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "GetCartsResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "OptionSetResponse": {
+                "type": "object",
+                "properties": {
+                    "maxSelected": {
+                        "description": "Max amount of options that can be selected within the set",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "options": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "minSelected": {
+                        "description": "Min amount of options that can be selected within the set",
+                        "type": "integer"
+                    },
+                    "label": {
+                        "description": "Label of the form element",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "Type of discount that was applied",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosProduct": {
+                "type": "object",
+                "properties": {
+                    "purchaseNote": {
+                        "description": "An arbitrary note sent with the purchase",
+                        "type": "string"
+                    },
+                    "legalAge": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "isAgeRestricted": {
+                        "description": "",
+                        "type": "boolean"
+                    },
+                    "description": {
+                        "description": "Description of the menu item",
+                        "type": "string"
+                    },
+                    "productRefInPos": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "variants": {
+                        "description": "List of variants on this product",
+                        "type": "array"
+                    },
+                    "displayPositionOnMenu": {
+                        "description": "Display order of this product on the menu",
+                        "type": "integer"
+                    },
+                    "isHidden": {
+                        "description": "Whether this product should be hidden from being displayed on the menu",
+                        "type": "boolean"
+                    },
+                    "imageUrl": {
+                        "description": "URL to the outlet image",
+                        "type": "string"
+                    },
+                    "priceMinorUnits": {
+                        "description": "Item price after any adjustments e.g. after discount",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "optionSets": {
+                        "description": "List of option sets associated with this product",
+                        "type": "array"
+                    },
+                    "configIds": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "configIds": {
+                "type": "array"
+            },
+            "GetTransactionDetailCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "MasterPassConsentResponse": {
+                "type": "object",
+                "properties": {
+                    "masterPassTermsKey": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "masterPassTermsUrl": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "masterPassTermsText": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "masterPassPrivacyKey": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "masterPassPrivacyText": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "masterPassPrivacyUrl": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "masterPassConsentText": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiOrderAheadOrderSlotCommand": {
+                "type": "object",
+                "properties": {
+                    "orderType": {
+                        "description": "Order type that is applied to the calculation. Valid types are 'COLLECTION' and 'DELIVERY'",
+                        "type": "string"
+                    },
+                    "orderTime": {
+                        "description": "Time of order in UTC milliseconds",
+                        "type": "integer"
+                    },
+                    "siteName": {
+                        "description": "Name of the site to perform calculations on",
+                        "type": "string"
+                    },
+                    "shippingAddressId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    }
+                }
+            },
+            "MerchantResponse": {
+                "type": "object",
+                "properties": {
+                    "twitter": {
+                        "description": "Twitter handle for the Merchant",
+                        "type": "string"
+                    },
+                    "website": {
+                        "description": "Website for the Merchant",
+                        "type": "string"
+                    },
+                    "defaultCurrency": {
+                        "description": "Default currency used by the Merchant",
+                        "type": "string"
+                    },
+                    "imageUrl": {
+                        "description": "URL to the outlet image",
+                        "type": "string"
+                    },
+                    "icon": {
+                        "description": "Icon for the Merchant",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "taxCalculationsEnabled": {
+                        "description": "Determines if tax calculations are enabled for the merchant",
+                        "type": "boolean"
+                    },
+                    "outlets": {
+                        "description": "List of live outlets for the merchant",
+                        "type": "array"
+                    },
+                    "departments": {
+                        "description": "List of departments for the merchant, applicable to School, University and Supplier business category",
+                        "type": "array"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "category": {
+                        "description": "Category of the product e.g. Food, Drink",
+                        "type": "string"
+                    },
+                    "pricesSetPretax": {
+                        "description": "Determines if prices of items purchased were pre tax",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "outlets": {
+                "type": "array"
+            },
+            "departments": {
+                "type": "array"
+            },
+            "PurchaseCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "deviceType": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "orderType": {
+                        "description": "Order type that is applied to the calculation. Valid types are 'COLLECTION' and 'DELIVERY'",
+                        "type": "string"
+                    },
+                    "authCode": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "collectionTime": {
+                        "description": "Estimated collection time by customer",
+                        "type": "integer"
+                    },
+                    "tipAmount": {
+                        "description": "Tip in minor units (cents) user will be charged. Optional.",
+                        "type": "integer"
+                    },
+                    "cartId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "outletId": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "amountMinorUnits": {
+                        "description": "Amount in minor units e.g. cents",
+                        "type": "integer"
+                    },
+                    "expressCheckoutAgreed": {
+                        "description": "Prior approval from Qkr team is required to use this.",
+                        "type": "boolean"
+                    },
+                    "shippingAddressId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cvc2": {
+                        "description": "CVC security code of the card. This is the code on the back of the card. Example: 123",
+                        "type": "string"
+                    },
+                    "deviceId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cartTotalAmount": {
+                        "description": "The total amount of the cart as known by the client.  If the server calculates a different",
+                        "type": "integer"
+                    },
+                    "deliverTo": {
+                        "description": "The delivery destination for the purchase, for example this could be a seat in a stadium",
+                        "type": "string"
+                    },
+                    "products": {
+                        "description": "List of product items to add to the calculation",
+                        "type": "array"
+                    },
+                    "lightboxDataId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cardId": {
+                        "description": "ID of the card added as part of the registration.  This will only be set when a card is created as part of the user create API",
+                        "type": "string"
+                    },
+                    "gatewayRef": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "preTaxAmountMinorUnits": {
+                        "description": "Pre tax amount in minor units (cents). Optional.",
+                        "type": "integer"
+                    },
+                    "card": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "partnerTxId": {
+                        "description": "ANY unique identifier representing the order (item(s)) the User is paying for. Subsequent requests for payment with the same partnerTxId will receive an error response with code 'duplicate.purchase'",
+                        "type": "string"
+                    },
+                    "ApiCardCommand": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "card": {
+                "type": "object"
+            },
+            "GetFormCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "beneficiaryId": {
+                        "description": "ID of the beneficiary",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiQkrUserCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "lastName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "securityQuestion": {
+                        "description": "The security question chosen by the user.  MasterPass users only.  This field is optional.  The existing value will remain intact if no value is supplied",
+                        "type": "string"
+                    },
+                    "mobileValidationId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "taxNumber": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "language": {
+                        "description": "Language of the user. Optional, defaults to en",
+                        "type": "string"
+                    },
+                    "masterPassMarketingConsent": {
+                        "description": "Indicates if the user consents to receive MasterPass marketing communications.  MasterPass users only.  This field is optional.  The existing value will remain intact if no value is supplied",
+                        "type": "boolean"
+                    },
+                    "automaticEmailReceipts": {
+                        "description": "Indicates if the user will receive an email after each purchase.  The default value is false",
+                        "type": "boolean"
+                    },
+                    "countryOfResidence": {
+                        "description": "Country code of the user in ISO 3166-1 Aplha-2 code format.  Required.",
+                        "type": "string"
+                    },
+                    "phoneNumberCountryCode": {
+                        "description": "Phone number country code of the end user. MasterPass users only. Optional",
+                        "type": "string"
+                    },
+                    "securityQuestionAnswer": {
+                        "description": "Security question answer.  MasterPass users only.  This field is optional.  The existing value will remain intact if no value is supplied",
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "emailAddress": {
+                        "description": "Email address of the end user. Optional",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "Password.  Required for MasterPass users",
+                        "type": "string"
+                    },
+                    "ApiDeviceIdentifierCommand": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "deviceIdentifier": {
+                        "description": "Holder for device information",
+                        "type": ""
+                    },
+                    "phoneNumber": {
+                        "description": "Phone number of the end user. MasterPass users only. Optional",
+                        "type": "string"
+                    },
+                    "nationalId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "marketingConsent": {
+                        "description": "Indicates if the user has consented to receive marketing communications.  Qkr users only.  This field is optional.  The existing value will remain intact if no value is supplied",
+                        "type": "boolean"
+                    },
+                    "anonymous": {
+                        "description": "Determines if an anonymous user should be created",
+                        "type": "boolean"
+                    },
+                    "AddCardCommand": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "card": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "externalUserId": {
+                        "description": "Only required to create Notional\/Anonymous user. It is an alphanumeric field",
+                        "type": "string"
+                    }
+                }
+            },
+            "ShowLightboxResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "ExternalTransResponse": {
+                "type": "object",
+                "properties": {
+                    "subTotalAmount": {
+                        "description": "The total value of the transaction before discount(s)",
+                        "type": "string"
+                    },
+                    "authCode": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "outletId": {
+                        "description": "Outlet id where the order is created",
+                        "type": "string"
+                    },
+                    "paymentProcessorRef": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "discountAmount": {
+                        "description": "The total value of discount(s) received by the customer",
+                        "type": "string"
+                    },
+                    "paymentProcessorName": {
+                        "description": "The name of the payment processor who completed the transaction",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    },
+                    "outletName": {
+                        "description": "The name of the outlet where the transaction took place",
+                        "type": "string"
+                    },
+                    "totalAmount": {
+                        "description": "The total value of the transaction",
+                        "type": "string"
+                    },
+                    "ref": {
+                        "description": "Unique Qkr reference of the transaction",
+                        "type": "string"
+                    },
+                    "dateCreated": {
+                        "description": "The date Qkr was notified of the transaction",
+                        "type": "integer"
+                    },
+                    "transType": {
+                        "description": "The type of transaction. One of [MASTERPASS, NONMASTERPASS]",
+                        "type": "string"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "string"
+                    },
+                    "qkrRef": {
+                        "description": "A unique reference to be used to retrieve the stored transaction information",
+                        "type": "string"
+                    },
+                    "currency": {
+                        "description": "Currency code (ISO-4217) associated with the amount",
+                        "type": "string"
+                    },
+                    "paymentDate": {
+                        "description": "The date the payment was made",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiVendingSessionResponse": {
+                "type": "object",
+                "properties": {
+                    "sessionRefId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "payload": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "sessionStatus": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "GetFormResponse": {
+                "type": "object",
+                "properties": {
+                    "BeneficiaryResponse": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "beneficiary": {
+                        "description": "Beneficiary Details",
+                        "type": ""
+                    },
+                    "FormResponse": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "form": {
+                        "description": "Form Details",
+                        "type": ""
+                    },
+                    "formElements": {
+                        "description": "The elements and values for the form that is being submitted",
+                        "type": "array"
+                    }
+                }
+            },
+            "OrderCalendarDayResponse": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "description": "Date for which the order calendar details is",
+                        "type": "integer"
+                    },
+                    "orderCalendarDayBeneficiaries": {
+                        "description": "List of order calendar for each beneficiary",
+                        "type": "array"
+                    },
+                    "locked": {
+                        "description": "True if the prod group is unavailable for the given date",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "orderCalendarDayBeneficiaries": {
+                "type": "array"
+            },
+            "GetTransactionsCommand": {
+                "type": "object",
+                "properties": {
+                    "from": {
+                        "description": "The starting point for the transaction search",
+                        "type": "integer"
+                    },
+                    "to": {
+                        "description": "The number of transactions to return",
+                        "type": "integer"
+                    }
+                }
+            },
+            "PosProductVariant": {
+                "type": "object",
+                "properties": {
+                    "imageUrl": {
+                        "description": "URL to the outlet image",
+                        "type": "string"
+                    },
+                    "priceMinorUnits": {
+                        "description": "Item price after any adjustments e.g. after discount",
+                        "type": "integer"
+                    },
+                    "variantRefInPos": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "optionSets": {
+                        "description": "List of option sets associated with this product",
+                        "type": "array"
+                    },
+                    "description": {
+                        "description": "Description of the menu item",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiPosOrderUpdateCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "ApiPosOrderCommand": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "order": {
+                        "description": "The order to update",
+                        "type": ""
+                    }
+                }
+            },
+            "ApiPosProductCommand": {
+                "type": "object",
+                "properties": {
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "productRefInPos": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "productName": {
+                        "description": "Name of the menu item",
+                        "type": "string"
+                    }
+                }
+            },
+            "GetBeneficiaryCustomFieldsCommand": {
+                "type": "object",
+                "properties": {
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "integer"
+                    }
+                }
+            },
+            "PosOrderPayment": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "description": "Amount of discount that was applied",
+                        "type": "integer"
+                    },
+                    "code": {
+                        "description": "Code of the discount that was applied",
+                        "type": "string"
+                    },
+                    "paymentType": {
+                        "description": "Type of payment that was made",
+                        "type": "string"
+                    }
+                }
+            },
+            "RefundHistoryItemResponse": {
+                "type": "object",
+                "properties": {
+                    "amountBeforeRefund": {
+                        "description": "Amount of the transaction before the refund is applied",
+                        "type": "integer"
+                    },
+                    "refundedReason": {
+                        "description": "Reason for the refund",
+                        "type": "string"
+                    },
+                    "amountAfterRefund": {
+                        "description": "Amount of the transaction after the refund is applied",
+                        "type": "integer"
+                    },
+                    "refundedQuantity": {
+                        "description": "Number of items refunded",
+                        "type": "integer"
+                    },
+                    "refundDate": {
+                        "description": "Date of the refund",
+                        "type": "integer"
+                    }
+                }
+            },
+            "UpdateCreditNoteAmountCommand": {
+                "type": "object",
+                "properties": {
+                    "transItemIds": {
+                        "description": "IDs of the transaction items that are going to be cancelled",
+                        "type": "array"
+                    }
+                }
+            },
+            "transItemIds": {
+                "type": "array"
+            },
+            "UpdatePasswordCommand": {
+                "type": "object",
+                "properties": {
+                    "oldPassword": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "newPassword": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "otpToken": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosMenuResponse": {
+                "type": "object",
+                "properties": {
+                    "menuType": {
+                        "description": "Type of the menu",
+                        "type": "string"
+                    },
+                    "categories": {
+                        "description": "List of product categories",
+                        "type": "array"
+                    }
+                }
+            },
+            "categories": {
+                "type": "array"
+            },
+            "UpdatePosOrderResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "description": "Success if the till order is linked to Qkr",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiPatMenuCommand": {
+                "type": "object",
+                "properties": {
+                    "siteName": {
+                        "description": "Name of the site to perform calculations on",
+                        "type": "string"
+                    },
+                    "menuTypes": {
+                        "description": "Menu Type (comma separated list from OrderAtTable, Collection, Delivery)",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    }
+                }
+            },
+            "TokenResponse": {
+                "type": "object",
+                "properties": {
+                    "expires": {
+                        "description": "The time until the token expires",
+                        "type": "integer"
+                    },
+                    "token": {
+                        "description": "Unique token value typically representing an access or refresh token",
+                        "type": "string"
+                    }
+                }
+            },
+            "CardResponse": {
+                "type": "object",
+                "properties": {
+                    "backgroundColor": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "isDefault": {
+                        "description": "Indicates if this is the default card for this user",
+                        "type": "boolean"
+                    },
+                    "maskedPan": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cardHolderName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "imageUrl": {
+                        "description": "URL to the outlet image",
+                        "type": "string"
+                    },
+                    "alias": {
+                        "description": "Alias of the card",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "isExpired": {
+                        "description": "Determines if this card is expired",
+                        "type": "boolean"
+                    },
+                    "type": {
+                        "description": "Type of discount that was applied",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosCategory": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Description of the menu item",
+                        "type": "string"
+                    },
+                    "products": {
+                        "description": "List of product items to add to the calculation",
+                        "type": "array"
+                    }
+                }
+            },
+            "ListExternalTransResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "UpdateBeneficiaryResponse": {
+                "type": "object",
+                "properties": {
+                    "showNoMatchWarning": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "beneficiaryId": {
+                        "description": "ID of the beneficiary",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiCardCommand": {
+                "type": "object",
+                "properties": {
+                    "addressCountry": {
+                        "description": "Country of the card holder",
+                        "type": "string"
+                    },
+                    "cvc": {
+                        "description": "CVC security code of the card. This is the code on the back of the card. Example: 123",
+                        "type": "string"
+                    },
+                    "expMonth": {
+                        "description": "Expiration month of the card. Format is MM. Example: January = 01",
+                        "type": "integer"
+                    },
+                    "addressZip": {
+                        "description": "Postal code of the cardholder. The postal code size is between 5 and 9 in length and only contain numbers or letters",
+                        "type": "string"
+                    },
+                    "expYear": {
+                        "description": "Expiration year of the card. Format is YY. Example: 2013 = 13",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "addressLine1": {
+                        "description": "Line 1 of the card holder address",
+                        "type": "string"
+                    },
+                    "alias": {
+                        "description": "Alias of the card",
+                        "type": "string"
+                    },
+                    "addressLine2": {
+                        "description": "Line 2 of the card holder address",
+                        "type": "string"
+                    },
+                    "addressState": {
+                        "description": "State of the card holder address",
+                        "type": "string"
+                    },
+                    "pan": {
+                        "description": "Primary account number of the card",
+                        "type": "string"
+                    },
+                    "addressCity": {
+                        "description": "City of the card holder",
+                        "type": "string"
+                    }
+                }
+            },
+            "GetBeneficiariesCommand": {
+                "type": "object",
+                "properties": {
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "integer"
+                    }
+                }
+            },
+            "GetFormSubmissionsCommand": {
+                "type": "object",
+                "properties": {
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "integer"
+                    }
+                }
+            },
+            "CartItemResponse": {
+                "type": "object",
+                "properties": {
+                    "purchaseNote": {
+                        "description": "An arbitrary note sent with the purchase",
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "productId": {
+                        "description": "ID of the product related to this cart item",
+                        "type": "string"
+                    },
+                    "productVariantId": {
+                        "description": "ID of the product variant related to this cart item",
+                        "type": "string"
+                    },
+                    "scanId": {
+                        "description": "ID of the scannable associated with this cart item",
+                        "type": "string"
+                    },
+                    "productGroupId": {
+                        "description": "ID of the ProdGroup related to this cart item",
+                        "type": "string"
+                    },
+                    "taxBreakDown": {
+                        "description": "List of tax components associated with the transaction item",
+                        "type": "array"
+                    },
+                    "amountMinorUnits": {
+                        "description": "Amount in minor units e.g. cents",
+                        "type": "integer"
+                    },
+                    "deliveryDateStr": {
+                        "description": "Delivery date in String format, of the cart item (if the cart is for delivery)",
+                        "type": "string"
+                    },
+                    "subTotal": {
+                        "description": "Total amount of the transaction minus tax, in minor units e.g. cents",
+                        "type": "integer"
+                    },
+                    "productName": {
+                        "description": "Name of the menu item",
+                        "type": "string"
+                    },
+                    "taxName": {
+                        "description": "Name of the tax paid on the transaction item",
+                        "type": "string"
+                    },
+                    "totalAmount": {
+                        "description": "Total amount of the transaction item",
+                        "type": "integer"
+                    },
+                    "imageUrl": {
+                        "description": "URL to the outlet image",
+                        "type": "string"
+                    },
+                    "options": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "paid": {
+                        "description": "Determines is the cart item is paid",
+                        "type": "boolean"
+                    },
+                    "VariantResponse": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "variant": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "currency": {
+                        "description": "Currency code (ISO-4217) associated with the amount",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "deliveryDate": {
+                        "description": "Delivery date of this transaction item",
+                        "type": "integer"
+                    },
+                    "taxAmount": {
+                        "description": "Transaction tax amount in minor units e.g. cent",
+                        "type": "integer"
+                    },
+                    "UserDetailResponse": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "user": {
+                        "description": "Details of the user purchasing the cart item",
+                        "type": ""
+                    },
+                    "productDescription": {
+                        "description": "Description of the menu item",
+                        "type": "string"
+                    },
+                    "beneficiaryId": {
+                        "description": "ID of the beneficiary",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosOrderAmounts": {
+                "type": "object",
+                "properties": {
+                    "autoServiceChargeMinorUnits": {
+                        "description": "How much is the service charge",
+                        "type": "integer"
+                    },
+                    "amountDueMinorUnits": {
+                        "description": "How much is outstanding",
+                        "type": "integer"
+                    },
+                    "discounts": {
+                        "description": "Applied discounts",
+                        "type": "array"
+                    },
+                    "otherServiceChargeMinorUnits": {
+                        "description": "How much is the other service charge",
+                        "type": "integer"
+                    },
+                    "payments": {
+                        "description": "Applied payments",
+                        "type": "array"
+                    },
+                    "subtotalMinorUnits": {
+                        "description": "Subtotal of all items",
+                        "type": "integer"
+                    },
+                    "tipPaidMinorUnits": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "paymentMinorUnits": {
+                        "description": "How much",
+                        "type": "integer"
+                    },
+                    "taxMinorUnits": {
+                        "description": "How much is tax",
+                        "type": "integer"
+                    }
+                }
+            },
+            "ApiMachineDetailsResponse": {
+                "type": "object",
+                "properties": {
+                    "hasExpressCheckoutPermission": {
+                        "description": "",
+                        "type": "boolean"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "integer"
+                    },
+                    "currency": {
+                        "description": "Currency code (ISO-4217) associated with the amount",
+                        "type": "string"
+                    },
+                    "model": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "merchantCountry": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiOauthAccessTokenCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "emailAddress": {
+                        "description": "Email address of the end user. Optional",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "Password.  Required for MasterPass users",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosOptionSet": {
+                "type": "object",
+                "properties": {
+                    "min": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "max": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "options": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "label": {
+                        "description": "Label of the form element",
+                        "type": "string"
+                    },
+                    "optionSetIndex": {
+                        "description": "",
+                        "type": "integer"
+                    }
+                }
+            },
+            "ApiBeneficiaryDeleteCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "CreatePatOrderResponse": {
+                "type": "object",
+                "properties": {
+                    "shortReference": {
+                        "description": "The short code customer shares with the waiter. Waiter enters that code at the till to link the order at the till with Qkr.",
+                        "type": "string"
+                    },
+                    "orderId": {
+                        "description": "This is the orderId. Use the orderId for subsequent API requests for this Order",
+                        "type": "string"
+                    },
+                    "message": {
+                        "description": "Success if the till order is linked to Qkr",
+                        "type": "string"
+                    }
+                }
+            },
+            "PosCalculateTotals": {
+                "type": "object",
+                "properties": {
+                    "listPriceMinorUnits": {
+                        "description": "Total price without tax, discounts, offers, etc.",
+                        "type": "integer"
+                    },
+                    "netPriceMinorUnits": {
+                        "description": "Total effective price that customer will be charged, in minor units",
+                        "type": "integer"
+                    },
+                    "discountMinorUnits": {
+                        "description": "Total discount in minor units",
+                        "type": "integer"
+                    },
+                    "surchargeMinorUnits": {
+                        "description": "Total surcharge in minor units",
+                        "type": "integer"
+                    },
+                    "taxMinorUnits": {
+                        "description": "How much is tax",
+                        "type": "integer"
+                    }
+                }
+            },
+            "GetOrderCalendarResponse": {
+                "type": "object",
+                "properties": {
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "string"
+                    },
+                    "merchantTimezone": {
+                        "description": "Timezone of the merchant",
+                        "type": "string"
+                    },
+                    "orderCalendarDays": {
+                        "description": "List of order calendar days",
+                        "type": "array"
+                    },
+                    "merchantCurrency": {
+                        "description": "Currency of the merchant",
+                        "type": "string"
+                    },
+                    "merchantLocId": {
+                        "description": "ID of the merchant outlet",
+                        "type": "string"
+                    }
+                }
+            },
+            "orderCalendarDays": {
+                "type": "array"
+            },
+            "UpdateCardResponse": {
+                "type": "object",
+                "properties": {
+                    "isDefault": {
+                        "description": "Indicates if this is the default card for this user",
+                        "type": "boolean"
+                    },
+                    "cardId": {
+                        "description": "ID of the card added as part of the registration.  This will only be set when a card is created as part of the user create API",
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateUserImageCommand": {
+                "type": "object",
+                "properties": {
+                    "image": {
+                        "description": "Image of the beneficiary, base64 encoded string",
+                        "type": "string"
+                    },
+                    "format": {
+                        "description": "User image format (\"PNG\" or \"JPEG\")",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "CartResponse": {
+                "type": "object",
+                "properties": {
+                    "cartTotalTax": {
+                        "description": "Total tax amount due for this cart",
+                        "type": "integer"
+                    },
+                    "merchantIconUrl": {
+                        "description": "Icon URL of the Merchant",
+                        "type": "string"
+                    },
+                    "scanId": {
+                        "description": "ID of the scannable associated with this cart item",
+                        "type": "string"
+                    },
+                    "cartId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "amountMinorUnits": {
+                        "description": "Amount in minor units e.g. cents",
+                        "type": "integer"
+                    },
+                    "timezone": {
+                        "description": "Time zone of the merchant outlet",
+                        "type": "string"
+                    },
+                    "basicCost": {
+                        "description": "The unit cost multiplied by the quantity.  The unit cost may or may not include tax depending on the unitPricePreTax value.  Coupons are not deducted from the basicCost",
+                        "type": "integer"
+                    },
+                    "merchantLocId": {
+                        "description": "ID of the merchant outlet",
+                        "type": "string"
+                    },
+                    "seatRequired": {
+                        "description": "Determines if a seat is required for this cart",
+                        "type": "boolean"
+                    },
+                    "taxName": {
+                        "description": "Name of the tax paid on the transaction item",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    },
+                    "merchantLocation": {
+                        "description": "Description of the outlet",
+                        "type": "string"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "string"
+                    },
+                    "locatedScanId": {
+                        "description": "ID of the scannable item associated with the transaction",
+                        "type": "string"
+                    },
+                    "taxCalculationsEnabled": {
+                        "description": "Determines if tax calculations are enabled for the merchant",
+                        "type": "boolean"
+                    },
+                    "cartType": {
+                        "description": "The type of this cart.  This value is ACTIVE",
+                        "type": "string"
+                    },
+                    "currency": {
+                        "description": "Currency code (ISO-4217) associated with the amount",
+                        "type": "string"
+                    },
+                    "cartItems": {
+                        "description": "List of cart items",
+                        "type": "array"
+                    },
+                    "merchantWideImageUrl": {
+                        "description": "URL to the Merchant image",
+                        "type": "string"
+                    },
+                    "shippingAddressRequired": {
+                        "description": "Determines if a shipping address is required when purchasing this product",
+                        "type": "boolean"
+                    },
+                    "unitPricePreTax": {
+                        "description": "Determines if product group prices are pre-tax",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "GetMerchantsResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "GetTransactionsResponse": {
+                "type": "object",
+                "properties": {
+                    "hasMore": {
+                        "description": "Determines if there are more transaction summaries on the server",
+                        "type": "boolean"
+                    },
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "ApiOrderAheadCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "orderType": {
+                        "description": "Order type that is applied to the calculation. Valid types are 'COLLECTION' and 'DELIVERY'",
+                        "type": "string"
+                    },
+                    "cardPan": {
+                        "description": "Card PAN to be used for payment. (mutually exclusive with cardId)",
+                        "type": "string"
+                    },
+                    "siteName": {
+                        "description": "Name of the site to perform calculations on",
+                        "type": "string"
+                    },
+                    "shippingAddressId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    },
+                    "products": {
+                        "description": "List of product items to add to the calculation",
+                        "type": "array"
+                    },
+                    "cvc": {
+                        "description": "CVC security code of the card. This is the code on the back of the card. Example: 123",
+                        "type": "string"
+                    },
+                    "expMonth": {
+                        "description": "Expiration month of the card. Format is MM. Example: January = 01",
+                        "type": "integer"
+                    },
+                    "customerPhone": {
+                        "description": "Phone number of customer placing the order",
+                        "type": "string"
+                    },
+                    "orderTime": {
+                        "description": "Time of order in UTC milliseconds",
+                        "type": "integer"
+                    },
+                    "expYear": {
+                        "description": "Expiration year of the card. Format is YY. Example: 2013 = 13",
+                        "type": "integer"
+                    },
+                    "amountInMinorUnits": {
+                        "description": "Total amount to be paid for the order, in minor units",
+                        "type": "integer"
+                    },
+                    "cardId": {
+                        "description": "ID of the card added as part of the registration.  This will only be set when a card is created as part of the user create API",
+                        "type": "string"
+                    },
+                    "orderNotes": {
+                        "description": "Notes about the order, such as special requests",
+                        "type": "string"
+                    },
+                    "customerLastName": {
+                        "description": "Last name of customer placing the order",
+                        "type": "string"
+                    }
+                }
+            },
+            "DeleteCartItemCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "CountryResponse": {
+                "type": "object",
+                "properties": {
+                    "masterPass": {
+                        "description": "true or false",
+                        "type": "string"
+                    },
+                    "phoneNumberPrefix": {
+                        "description": "Phone number prefix",
+                        "type": "string"
+                    },
+                    "code": {
+                        "description": "Code of the discount that was applied",
+                        "type": "string"
+                    },
+                    "privacy": {
+                        "description": "Privacy terms",
+                        "type": "string"
+                    },
+                    "marketingOptInText": {
+                        "description": "Marketing text phrase",
+                        "type": "string"
+                    },
+                    "locales": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "phoneNumberMinLength": {
+                        "description": "Min phone number length",
+                        "type": "string"
+                    },
+                    "validateMobile": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "MasterPassConsentResponse": {
+                        "description": "",
+                        "type": "object"
+                    },
+                    "masterPassConsentResponse": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "consumerLegal": {
+                        "description": "terms and conditions, html  string  format",
+                        "type": "string"
+                    },
+                    "phoneCountryCode": {
+                        "description": "Phone's code",
+                        "type": "string"
+                    },
+                    "terms": {
+                        "description": "terms and condition's link",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "nationalIdLegalText": {
+                        "description": "Country's national id label text",
+                        "type": "string"
+                    },
+                    "phoneNumberMaxLength": {
+                        "description": "Max phone number length",
+                        "type": "string"
+                    },
+                    "nationalIdLabel": {
+                        "description": "Country's national id label",
+                        "type": "string"
+                    }
+                }
+            },
+            "locales": {
+                "type": "array"
+            },
+            "GetBeneficiariesResponse": {
+                "type": "object",
+                "properties": {
+                    "beneficiaries": {
+                        "description": "List of beneficiary profiles",
+                        "type": "array"
+                    }
+                }
+            },
+            "ApiPosOrderMenuItemCommand": {
+                "type": "object",
+                "properties": {
+                    "isDiscounted": {
+                        "description": "Determines if the menu item is discounted",
+                        "type": "boolean"
+                    },
+                    "groupName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "isRefunded": {
+                        "description": "Determines if the menu item was refunded",
+                        "type": "boolean"
+                    },
+                    "subItems": {
+                        "description": "Menu items contained within this menu item",
+                        "type": "array"
+                    },
+                    "itemCode": {
+                        "description": "Menu item reference code in POS",
+                        "type": "string"
+                    },
+                    "priceMinorUnits": {
+                        "description": "Item price after any adjustments e.g. after discount",
+                        "type": "integer"
+                    },
+                    "isCondiment": {
+                        "description": "Determines if the menu item is a condiment",
+                        "type": "boolean"
+                    },
+                    "name": {
+                        "description": "Cardholder Name as it appears on the card",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Description of the menu item",
+                        "type": "string"
+                    },
+                    "originalPriceMinorUnits": {
+                        "description": "Original item price",
+                        "type": "integer"
+                    }
+                }
+            },
+            "ApiPatOrderUpdateCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "products": {
+                        "description": "List of product items to add to the calculation",
+                        "type": "array"
+                    }
+                }
+            },
+            "GetAvailableOrderSlotsResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "ExternalTransCreateCommand": {
+                "type": "object",
+                "properties": {
+                    "subTotalAmount": {
+                        "description": "The total value of the transaction before discount(s)",
+                        "type": "string"
+                    },
+                    "authCode": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "outletId": {
+                        "description": "Outlet id where the order is created",
+                        "type": "string"
+                    },
+                    "paymentProcessorRef": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "discountAmount": {
+                        "description": "The total value of discount(s) received by the customer",
+                        "type": "string"
+                    },
+                    "paymentProcessorName": {
+                        "description": "The name of the payment processor who completed the transaction",
+                        "type": "string"
+                    },
+                    "merchantName": {
+                        "description": "Name of the merchant who owns the site",
+                        "type": "string"
+                    },
+                    "outletName": {
+                        "description": "The name of the outlet where the transaction took place",
+                        "type": "string"
+                    },
+                    "totalAmount": {
+                        "description": "The total value of the transaction",
+                        "type": "string"
+                    },
+                    "ref": {
+                        "description": "Unique Qkr reference of the transaction",
+                        "type": "string"
+                    },
+                    "transType": {
+                        "description": "The type of transaction. One of [MASTERPASS, NONMASTERPASS]",
+                        "type": "string"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "string"
+                    },
+                    "currency": {
+                        "description": "Currency code (ISO-4217) associated with the amount",
+                        "type": "string"
+                    },
+                    "paymentDate": {
+                        "description": "The date the payment was made",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiVendingSessionCommand": {
+                "type": "object",
+                "properties": {
+                    "machineId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cardId": {
+                        "description": "ID of the card added as part of the registration.  This will only be set when a card is created as part of the user create API",
+                        "type": "string"
+                    }
+                }
+            },
+            "TransItemResponse": {
+                "type": "object",
+                "properties": {
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "transId": {
+                        "description": "ID of the transaction",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "ApiBeneficiaryUpdateCommand": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "image": {
+                        "description": "Image of the beneficiary, base64 encoded string",
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "beneficiaryCustomFieldValues": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "gender": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "merchantId": {
+                        "description": "ID of the merchant",
+                        "type": "integer"
+                    },
+                    "middleName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "ForgotPasswordResponse": {
+                "type": "object",
+                "properties": {
+                    "verifierType": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "forgotPasswordUrl": {
+                        "description": "URL where the user should be directed to change their password",
+                        "type": "string"
+                    },
+                    "supportNumber": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "channel": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "otpToken": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "UserResponse": {
+                "type": "object",
+                "properties": {
+                    "lastName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "cards": {
+                        "description": "List of payment cards associated with the user",
+                        "type": "array"
+                    },
+                    "taxNumber": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "masterPassMarketingConsent": {
+                        "description": "Indicates if the user consents to receive MasterPass marketing communications.  MasterPass users only.  This field is optional.  The existing value will remain intact if no value is supplied",
+                        "type": "boolean"
+                    },
+                    "automaticEmailReceipts": {
+                        "description": "Indicates if the user will receive an email after each purchase.  The default value is false",
+                        "type": "boolean"
+                    },
+                    "countryOfResidence": {
+                        "description": "Country code of the user in ISO 3166-1 Aplha-2 code format.  Required.",
+                        "type": "string"
+                    },
+                    "phoneNumberCountryCode": {
+                        "description": "Phone number country code of the end user. MasterPass users only. Optional",
+                        "type": "string"
+                    },
+                    "profilePhotoUrl": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "defaultCardAlias": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "emailAddress": {
+                        "description": "Email address of the end user. Optional",
+                        "type": "string"
+                    },
+                    "phoneNumber": {
+                        "description": "Phone number of the end user. MasterPass users only. Optional",
+                        "type": "string"
+                    },
+                    "masterPassUser": {
+                        "description": "Indicates if the user is a MasterPass user or a Qkr user.  This is determined by the country of residence supplied during registration",
+                        "type": "boolean"
+                    },
+                    "marketingConsent": {
+                        "description": "Indicates if the user has consented to receive marketing communications.  Qkr users only.  This field is optional.  The existing value will remain intact if no value is supplied",
+                        "type": "boolean"
+                    },
+                    "requestCvcInAddCard": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    },
+                    "requestZipInAddCard": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "notional": {
+                        "description": "Indicates if the user was created as notional",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "cards": {
+                "type": "array"
+            },
+            "CartLineItemResponse": {
+                "type": "object",
+                "properties": {
+                    "quantity": {
+                        "description": "Quantity of discounts that were applied",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            },
+            "DepartmentCreditBalanceResponse": {
+                "type": "object",
+                "properties": {
+                    "departmentName": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "balance": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "departmentId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "currency": {
+                        "description": "Currency code (ISO-4217) associated with the amount",
+                        "type": "string"
+                    }
+                }
+            },
+            "BeneficiaryCustomFieldsResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "description": "Object list",
+                        "type": "array"
+                    }
+                }
+            },
+            "ApiQkrUserDeleteCommand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Id of formElement retrieved from GET form API",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
