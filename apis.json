@@ -1,0 +1,204 @@
+{
+    "name": "MasterCard",
+    "description": "Mastercard is a leading global payments & technology company that connects consumers, businesses, merchants, issuers & governments around the world.",
+    "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/366-mastercard.jpg",
+    "tags": [
+        "api provider",
+        "blockchain",
+        "blockchains",
+        "coupons",
+        "financial",
+        "financial services",
+        "have api",
+        "have openapi",
+        "have swagger",
+        "merchants",
+        "offers",
+        "payments",
+        "profile",
+        "relative data",
+        "service api",
+        "shopping",
+        "target",
+        "webhook implementations"
+    ],
+    "created": "2019-12-19",
+    "modified": "2019-12-19",
+    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/mastercard\/master\/apis.json",
+    "specificationVersion": "0.14",
+    "apis": [
+        {
+            "name": "MasterCard",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/366-mastercard.jpg",
+            "humanURL": "https:\/\/developer.mastercard.com\/",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mastercard-openapi.json"
+                },
+                {
+                    "type": "x-openapi",
+                    "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/mastercard.json"
+                },
+                {
+                    "type": "x-postman-collecction",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mastercard-postman-collection.json"
+                }
+            ]
+        },
+        {
+            "name": "Qkr! API",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/366-mastercard.jpg",
+            "humanURL": "https:\/\/developer.mastercard.com\/",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/qkr-api-openapi.json"
+                },
+                {
+                    "type": "x-openapi",
+                    "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/qkr-api.json"
+                },
+                {
+                    "type": "x-postman-collecction",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/qkr-api-postman-collection.json"
+                }
+            ]
+        },
+        {
+            "name": "Masterpass Checkout API",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/366-mastercard.jpg",
+            "humanURL": "https:\/\/developer.mastercard.com\/",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/masterpass-checkout-api-openapi.json"
+                },
+                {
+                    "type": "x-openapi",
+                    "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/masterpass-checkout-api.json"
+                },
+                {
+                    "type": "x-postman-collecction",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/masterpass-checkout-api-postman-collection.json"
+                }
+            ]
+        },
+        {
+            "name": "Mastercard Blockchain",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/366-mastercard.jpg",
+            "humanURL": "https:\/\/developer.mastercard.com\/",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mastercard-blockchain-openapi.json"
+                },
+                {
+                    "type": "x-openapi",
+                    "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/mastercard-blockchain.json"
+                },
+                {
+                    "type": "x-postman-collecction",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mastercard-blockchain-postman-collection.json"
+                }
+            ]
+        },
+        {
+            "name": "MDES for Merchants",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/366-mastercard.jpg",
+            "humanURL": "https:\/\/developer.mastercard.com\/",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mdes-for-merchants-openapi.json"
+                },
+                {
+                    "type": "x-openapi",
+                    "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/mdes-for-merchants.json"
+                },
+                {
+                    "type": "x-postman-collecction",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mdes-for-merchants-postman-collection.json"
+                }
+            ]
+        }
+    ],
+    "include": [],
+    "x-common": [
+        {
+            "type": "Base",
+            "url": "https:\/\/api.simplify.com"
+        },
+        {
+            "type": "Blog",
+            "url": "https:\/\/developer.mastercard.com\/blog"
+        },
+        {
+            "type": "Blog",
+            "url": "https:\/\/developer.mastercard.com\/portal\/display\/blogs\/Developer+Blogs"
+        },
+        {
+            "type": "Crunchbase",
+            "url": "https:\/\/crunchbase.com\/organization\/mastercard"
+        },
+        {
+            "type": "Crunchbase",
+            "url": "http:\/\/www.crunchbase.com\/company\/mastercard"
+        },
+        {
+            "type": "Github",
+            "url": "https:\/\/github.com\/MasterCard"
+        },
+        {
+            "type": "Website",
+            "url": "https:\/\/developer.mastercard.com\/"
+        },
+        {
+            "type": "Swagger",
+            "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-definitions\/swagger\/366-2019-09-03-21-04-41.json"
+        },
+        {
+            "type": "Swagger",
+            "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-definitions\/swagger\/366-2019-09-03-21-04-54.json"
+        },
+        {
+            "type": "Swagger",
+            "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-definitions\/swagger\/366-2019-09-06-19-58-47.json"
+        },
+        {
+            "type": "Swagger",
+            "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-definitions\/swagger\/366-2019-09-06-20-00-34.json"
+        },
+        {
+            "type": "Partners",
+            "url": "https:\/\/developer.mastercard.com\/partner-apis"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/AskMastercard"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/MasterCardDev"
+        },
+        {
+            "type": "Webhooks",
+            "url": "https:\/\/www.simplify.com\/commerce\/docs\/misc\/webhooks"
+        }
+    ]
+}
