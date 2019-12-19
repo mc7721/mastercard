@@ -1,0 +1,1361 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.2.9",
+        "title": "MDES for Merchants",
+        "description": "The MDES APIs are designed as RPC style stateless web services where each API endpoint represents an operation to be performed.  All request and response payloads are sent in the JSON (JavaScript Object Notation) data-interchange format. Each endpoint in the API specifies the HTTP Method used to access it. All strings in request and response objects are to be UTF-8 encoded.  Each API URI includes the major and minor version of API that it conforms to.  This will allow multiple concurrent versions of the API to be deployed simultaneously.\n<br>\n__Authentication__\nMastercard uses OAuth 1.0a with body hash extension for authenticating the API clients. This requires every request that you send to \nMastercard to be signed with an RSA private key. A private-public RSA key pair must be generated consisting of: <br>\n1 . A private key for the OAuth signature for API requests. It is recommended to keep the private key in a password-protected or hardware keystore.\n<br>\n2. A public key is shared wi",
+        "termsOfService": "http:\/\/exmple.com\/license\/"
+    },
+    "servers": [
+        "http:\/\/api.mastercard.com\/mdes"
+    ],
+    "paths": {
+        "\/digitization\/#env\/1\/0\/tokenize": {
+            "post": {
+                "summary": "Digitize Token",
+                "description": "Used to digitize a card to create a server-based Token. MDES will perform both card availability and eligibility checks to check that this specific card is eligible for digitization. As both availability and eligibility are combined, only a Tokenization Authorization message is sent to the issuer as part of this request to authorize the digitization. No Tokenization Eligibility message is sent. The digitization decision will be one of Approved or Declined.\n",
+                "operationId": "CreateTokenize",
+                "deprecated": 0,
+                "parameters": []
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TokenizeRequestSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "requestId": {
+                        "description": "Unique identifier for the request.\n",
+                        "type": "string"
+                    },
+                    "tokenType": {
+                        "description": "The type of Token requested. Must be CLOUD      \n__Max Length:32__   \n",
+                        "type": "string"
+                    },
+                    "tokenRequestorId": {
+                        "description": "Identifies the Token Requestor      \n__Max Length:11__ \n",
+                        "type": "string"
+                    },
+                    "taskId": {
+                        "description": "Identifier for this task as assigned by the Token Requestor, unique across a given Token Requestor Identifier. May be used in the Get Task Status API to query the status of this task.     \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "fundingAccountInfo": {
+                        "description": "Contains the information of the funding account to be tokenized. <br> \n __Note:__ fundingAccountInfo replaces cardInfo from previous versions.  \n",
+                        "type": ""
+                    },
+                    "consumerLanguage": {
+                        "description": "Language preference selected by the consumer. Formatted as an ISO- 639-1 two-letter language code.   \n__Max Length:2__\n",
+                        "type": "string"
+                    },
+                    "tokenizationAuthenticationValue": {
+                        "description": "The Tokenization Authentication Value (TAV) as cryptographically signed by the Issuer to authorize this digitization request.     \n__Max Length:2048__\n",
+                        "type": "string"
+                    },
+                    "decisioningData": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "fundingAccountInfo": {
+                "type": "object",
+                "properties": {
+                    "panUniqueReference": {
+                        "description": "The unique reference allocated to the Account Primary Account Number. Provided if the decision was APPROVED or REQUIRE_ADDITIONAL_AUTHENTICATION.\n __Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "tokenUniqueReference": {
+                        "description": "The unique reference allocated to the new Token. Serves as a unique identifier for all subsequent queries or management functions relating to this Token. Provided if the decision was APPROVED or REQUIRE_ADDITIONAL_AUTHENTICATION.   \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "pushAccountReceipt": {
+                        "description": "__(CONDITIONAL)__<br>\nThe push account receipt is supplied by the Issuer to the Merchant during a push provisioning operation. The pushAccountReceipt is then submitted by the merchant in the tokenize request and will be used by MDES to retrieve the associated funding account information. Only allowed if panUniqueReference and tokenUniqueReference are not present and encrypted data does not contain the funding account information. Refer to the <a href=\"https:\/\/developer.mastercard.com\/page\/push-provisioning-merchant\">Push Provisioning Use Case Guide <\/a>  for more information about pushAccountReceipt.\n\n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "encryptedPayload": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "decisioningData": {
+                "type": "object",
+                "properties": {
+                    "recommendation": {
+                        "description": "__(OPTIONAL)__ <br>\nDigitization decision recommended by the Token Requestor. Must be either APPROVED (Recommend a decision of Approved), DECLINED (Recommend a decision of Decline). <br>  \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "recommendationAlgorithmVersion": {
+                        "description": "__(OPTIONAL)__ <br>\nVersion of the algorithm used by the Token Requestor to determine its recommendation. Must be a value of \"01\". Other values may be supported in the future.<br>    \n__Max Length:16__\n",
+                        "type": "string"
+                    },
+                    "deviceScore": {
+                        "description": "__(OPTIONAL)__ <br>\nScore assigned by the Token Requestor for the target device being provisioned. Must be a value from 1 to 5.\n",
+                        "type": "string"
+                    },
+                    "accountScore": {
+                        "description": "__(OPTIONAL)__ <br>\nScore assigned by the Token Requestor for the consumer account or relationship. Must be a value from 1 to 5.\n",
+                        "type": "string"
+                    },
+                    "recommendationReasons": {
+                        "description": "__(OPTIONAL)__ <br>\nCode indicating the reasons the Token Requestor is suggesting the digitization decision.  See table here - https:\/\/developer.mastercard.com\/page\/mdes-digitization-recommendation-reason-codes\n",
+                        "type": "array"
+                    },
+                    "deviceCurrentLocation": {
+                        "description": "__(OPTIONAL)__ <br>\nLatitude and longitude in the format \"(sign) latitude, (sign) longitude\" with a precision of 2 decimal places.  Ex - \"38.63, -90.25\"  Latitude is between -90 and 90.  Longitude between -180 and 180. Relates to the target device being provisioned. If there is no target device, then this should be the current consumer location, if available. <br>   \n__Max Length:14__\n",
+                        "type": "string"
+                    },
+                    "deviceIpAddress": {
+                        "description": "__(OPTIONAL)__ <br>\nThe IP address of the device through which the device reaches the internet. This may be a temporary or permanent IP address assigned to a home router, or the IP address of a gateway through which the device connects to a network. IPv4 address format of 4 octets separated by \".\" Ex - 127.0.0.1 Relates to the target device being provisioned. If there is no target device, then this should be the current consumer IP address, if available.<br>    \n__Max Length:15__\n",
+                        "type": "string"
+                    },
+                    "mobileNumberSuffix": {
+                        "description": "__(OPTIONAL)__<br>\nThe last few digits (typically four) of the consumer's mobile phone number as available on file or on the consumer's current device, which may or may not be the mobile number of the target device being provisioned.<br>    \n__Max Length:32__\n",
+                        "type": "string"
+                    },
+                    "accountIdHash": {
+                        "description": "__(OPTIONAL)__ <br>\nSHA-256 hash of the Cardholder?s account ID with the Token Requestor. Typically expected to be an email address.<br> \n__Max Length:64__ Alpha-Numeric and Hex-encoded data (case-insensitive).\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "TokenizeResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    },
+                    "decision": {
+                        "description": "The tokenization decision for this digitization request. Must be either APPROVED (Digitization request was approved), DECLINED (Digitization request was declined) OR REQUIRE_ADDITIONAL_AUTHENTICATION Digitization request was approved but optionally requires additional authentication. One or more Authentication methods may be provided).\n",
+                        "type": "string"
+                    },
+                    "authenticationMethods": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "tokenUniqueReference": {
+                        "description": "The unique reference allocated to the new Token. Serves as a unique identifier for all subsequent queries or management functions relating to this Token. Provided if the decision was APPROVED or REQUIRE_ADDITIONAL_AUTHENTICATION.   \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "panUniqueReference": {
+                        "description": "The unique reference allocated to the Account Primary Account Number. Provided if the decision was APPROVED or REQUIRE_ADDITIONAL_AUTHENTICATION.\n __Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "productConfig": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "tokenInfo": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "tokenDetail": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "errorCode": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains the reason the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    },
+                    "errorDescription": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains a description of why the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__  \n",
+                        "type": "string"
+                    },
+                    "errors": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "authenticationMethods": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Unique identifier assigned to this Authentication Method.\n",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "What type of media this is. Specified as a MIME type, which will be one of the following supported types \n\n* applicatoin\/pdf (for images must be a vector PDF image)\n* image\/png (includes alpha channel)\n* text\/plain \n* text\/html\n\n__Max Length:32__ \n",
+                        "type": "string"
+                    },
+                    "value": {
+                        "description": "Specifies the authentication method value (meaning varies depending on the authentication method type).\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "productConfig": {
+                "type": "object",
+                "properties": {
+                    "brandLogoAssetId": {
+                        "description": "The MasterCard or Maestro brand logo associated with this card. Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset. Always returned in Product Configuration object <br>   \n__Max Length: 64__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "issuerLogoAssetId": {
+                        "description": "The logo of the issuing bank. Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset. Always returned in Product Configuration object <br>    \n__Max Length:64__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "isCoBranded": {
+                        "description": "Whether the product is co-branded. Must be either true (this is a co-branded product) or false (this is not a co-branded product). Always returned in Product Configuration object <br>   \n__Max Length:5__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "coBrandName": {
+                        "description": "Textual name of the co-brand partner. Required if CoBranded is true, not present otherwise.  <br>  \n__Max Length:128__<br>\n__Required: Conditional ? required if isCoBranded = \"true\". Not present otherwise__\n",
+                        "type": "string"
+                    },
+                    "coBrandLogoAssetId": {
+                        "description": "The co-brand logo (if any) for this product. Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset. <br>  \n__Max Length:64__<br>\n__Required: No__\n",
+                        "type": "string"
+                    },
+                    "cardBackgroundCombinedAssetId": {
+                        "description": "The card image used to represent the digital card in the wallet. This ?combined? option contains the MasterCard, bank and any co- brand logos.  Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset.    \n__Max Length:64__<br>\n__Required: Conditional ? either CardBackgroundCombined or CardBackground will be provided__\n",
+                        "type": "string"
+                    },
+                    "cardBackgroundAssetId": {
+                        "description": "The card image used to represent the digital card in the wallet. This ?non-combined? option does not contain the MasterCard, bank, or co-brand logos. Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset. <br>    \n__Max Length:64__<br>\n__Required: Conditional ? either CardBackgroundCombined or CardBackground will be provided__\n",
+                        "type": "string"
+                    },
+                    "iconAssetId": {
+                        "description": "The icon representing the primary brand(s) associated with this product. Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset. Always returned in Product Configuration object<br>   \n__Max Length:64__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "foregroundColor": {
+                        "description": "Foreground color, used to overlay text on top of the card image. Always returned in Product Configuration object<br>   \n__Max Length:6__ Hexadecimal RGB color format (case-insensitive).<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "issuerName": {
+                        "description": "Name of the issuing bank. Always returned in Product Configuration object <br>   \n__Max Length:64__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "shortDescription": {
+                        "description": "A short description for this product. Always returned in Product Configuration object  <br>  \n__Max Length:128__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "longDescription": {
+                        "description": "A long description for this product.  <br>  \n__Max Length:256__<br>\n__Required: No__\n",
+                        "type": "string"
+                    },
+                    "customerServiceUrl": {
+                        "description": "Customer service website of the issuing bank. <br>   \n__Max Length:128__<br>\n__Required: No__\n",
+                        "type": "string"
+                    },
+                    "customerServiceEmail": {
+                        "description": "Customer service email address of the issuing bank. <br>   \n__Max Length:64__<br>\n__Required: No__\n",
+                        "type": "string"
+                    },
+                    "customerServicePhoneNumber": {
+                        "description": "Customer service phone number of the issuing bank. <br>   \n__Max Length:64__<br>\n__Required: No__\n",
+                        "type": "string"
+                    },
+                    "issuerMobileApp": {
+                        "description": "Contains one or more mobile app details that may be used to deep link from the Mobile Payment App to the issuer mobile app. <br>   \n__Max Length:64__<br>\n__Required: No__\n",
+                        "type": "object"
+                    },
+                    "onlineBankingLoginUrl": {
+                        "description": "Logon URL for the issuing bank?s online banking website.<br>    \n__Max Length:128__\n",
+                        "type": "string"
+                    },
+                    "termsAndConditionsUrl": {
+                        "description": "URL linking to the issuing bank?s terms and conditions for this product.<br>    \n__Max Length:128__<br>\n__Required: No__\n",
+                        "type": "string"
+                    },
+                    "privacyPolicyUrl": {
+                        "description": "URL linking to the issuing bank?s privacy policy for this product.<br>    \n__Max Length:128__<br>\n__Required: No__\n",
+                        "type": "string"
+                    },
+                    "issuerProductConfigCode": {
+                        "description": "Freeform identifier for this product configuration as assigned by the issuer.<br>    \n__Max Length:128__<br>\n__Required: No__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "tokenInfo": {
+                "type": "object",
+                "properties": {
+                    "tokenPanSuffix": {
+                        "description": "The last few digits (typically four) of the Token PAN.<br>    \n__Max Length:8__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "accountPanSuffix": {
+                        "description": "The last few digits (typically four) of the Account PAN.<br>    \n__Max Length:8__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "tokenExpiry": {
+                        "description": "The expiry of the Token PAN, given in MMYY format.<br>    \n__Max Length:4__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "accountPanExpiry": {
+                        "description": "The expiry of the Account PAN, given in MMYY format. <br>\n__Max Length: 4__<br>\n__Required: No__\n",
+                        "type": "string"
+                    },
+                    "dsrpCapable": {
+                        "description": "Whether DSRP transactions are supported by this Token. Must be either 'true' (DSRP capable) or 'false' (Not DSRP capable).<br>\n__Max Length: 5__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "tokenAssuranceLevel": {
+                        "description": "A value indicating the confidence level of the token to Account PAN binding.<br>    \n__Max Length:2__<br>\n__Required: No__\n",
+                        "type": "string"
+                    },
+                    "productCategory": {
+                        "description": "The product category of the Account PAN. When supplied will be one of the following values - \n* CREDIT\n* DEBIT\n* PREPAID\n* UNKNOWN\n\n__Max Length: 32__<br>\n__Required: No__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "tokenDetail": {
+                "type": "object",
+                "properties": {
+                    "tokenUniqueReference": {
+                        "description": "The unique reference allocated to the new Token. Serves as a unique identifier for all subsequent queries or management functions relating to this Token. Provided if the decision was APPROVED or REQUIRE_ADDITIONAL_AUTHENTICATION.   \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "publicKeyFingerprint": {
+                        "description": "The fingerprint of the public key used to encrypt the ephemeral AES key.    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "encryptedKey": {
+                        "description": "One-time use AES key encrypted by the MasterCard public key (as identified by publicKeyFingerprint) using the OAEP or PKCS#1 v1.5 scheme (depending on the value of oaepHashingAlgorithm.    \n__Max Length:512__\n",
+                        "type": "string"
+                    },
+                    "oaepHashingAlgorithm": {
+                        "description": "Hashing algorithm used with the OAEP scheme. Must be either SHA256 or SHA512.\n",
+                        "type": "string"
+                    },
+                    "iv": {
+                        "description": "The initialization vector used when encrypting data using the one-time use AES key. Must be exactly 16 bytes (32 character hex string) to match the block size. If not present, an IV of zero is assumed. Length - 32.\n",
+                        "type": "string"
+                    },
+                    "encryptedData": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "errors": {
+                "type": "object"
+            },
+            "AssetResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "mediaContents": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "mediaContents": {
+                "type": "array"
+            },
+            "mediaContent": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "What type of media this is. Specified as a MIME type, which will be one of the following supported types \n\n* applicatoin\/pdf (for images must be a vector PDF image)\n* image\/png (includes alpha channel)\n* text\/plain \n* text\/html\n\n__Max Length:32__ \n",
+                        "type": "string"
+                    },
+                    "data": {
+                        "description": "The data for this item of media. Base64-encoded data, given in the format as specified in ?type?.\n",
+                        "type": "string"
+                    },
+                    "height": {
+                        "description": "For image assets, the height of this image. Specified in pixels.    \n__Max Length:6__ \n",
+                        "type": "string"
+                    },
+                    "width": {
+                        "description": "For image assets, the width of this image. Specified in pixels.       \n__Max Length:6__ \n",
+                        "type": "string"
+                    }
+                }
+            },
+            "SuspendRequestSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "requestId": {
+                        "description": "Unique identifier for the request.\n",
+                        "type": "string"
+                    },
+                    "paymentAppInstanceId": {
+                        "description": "Identifier for the specific Mobile Payment App instance, unique across a given Wallet Identifier. This value cannot be changed after digitization. This field is alphanumeric and additionally web-safe base64 characters per RFC 4648 (minus \"-\", underscore \"_\") up to a maximum length of 48, = should not be URL encoded. Conditional - not applicable for server based tokens but required otherwise.    \n__Max Length:48__\n",
+                        "type": "string"
+                    },
+                    "tokenUniqueReferences": {
+                        "description": "The specific Token to be suspended. Array of more or more valid references as assigned by MDES \n",
+                        "type": "array"
+                    },
+                    "causedBy": {
+                        "description": "Who or what caused the Token to be suspended. Must be either the 'CARDHOLDER' (operation requested by the Cardholder) or 'TOKEN_REQUESTOR' (operation requested by the token requestor).    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "reason": {
+                        "description": "Free form reason why the Tokens are being suspended.    \n__Max Length:256__\n",
+                        "type": "string"
+                    },
+                    "reasonCode": {
+                        "description": "The reason for the action to be suspended. Must be one of 'SUSPECTED_FRAUD' (suspected fraudulent token transactions), 'OTHER' (Other - default used if value not provided).    \n__Max Length:64__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "tokenUniqueReferences": {
+                "type": "array"
+            },
+            "SuspendResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    },
+                    "tokens": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "tokens": {
+                "type": "array"
+            },
+            "DeleteRequestSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "requestId": {
+                        "description": "Unique identifier for the request.\n",
+                        "type": "string"
+                    },
+                    "paymentAppInstanceId": {
+                        "description": "Identifier for the specific Mobile Payment App instance, unique across a given Wallet Identifier. This value cannot be changed after digitization. This field is alphanumeric and additionally web-safe base64 characters per RFC 4648 (minus \"-\", underscore \"_\") up to a maximum length of 48, = should not be URL encoded. Conditional - not applicable for server based tokens but required otherwise.    \n__Max Length:48__\n",
+                        "type": "string"
+                    },
+                    "tokenUniqueReferences": {
+                        "description": "The specific Token to be suspended. Array of more or more valid references as assigned by MDES \n",
+                        "type": "array"
+                    },
+                    "causedBy": {
+                        "description": "Who or what caused the Token to be suspended. Must be either the 'CARDHOLDER' (operation requested by the Cardholder) or 'TOKEN_REQUESTOR' (operation requested by the token requestor).    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "reason": {
+                        "description": "Free form reason why the Tokens are being suspended.    \n__Max Length:256__\n",
+                        "type": "string"
+                    },
+                    "reasonCode": {
+                        "description": "The reason for the action to be suspended. Must be one of 'SUSPECTED_FRAUD' (suspected fraudulent token transactions), 'OTHER' (Other - default used if value not provided).    \n__Max Length:64__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "DeleteResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    },
+                    "tokens": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "UnSuspendRequestSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "requestId": {
+                        "description": "Unique identifier for the request.\n",
+                        "type": "string"
+                    },
+                    "paymentAppInstanceId": {
+                        "description": "Identifier for the specific Mobile Payment App instance, unique across a given Wallet Identifier. This value cannot be changed after digitization. This field is alphanumeric and additionally web-safe base64 characters per RFC 4648 (minus \"-\", underscore \"_\") up to a maximum length of 48, = should not be URL encoded. Conditional - not applicable for server based tokens but required otherwise.    \n__Max Length:48__\n",
+                        "type": "string"
+                    },
+                    "tokenUniqueReferences": {
+                        "description": "The specific Token to be suspended. Array of more or more valid references as assigned by MDES \n",
+                        "type": "array"
+                    },
+                    "causedBy": {
+                        "description": "Who or what caused the Token to be suspended. Must be either the 'CARDHOLDER' (operation requested by the Cardholder) or 'TOKEN_REQUESTOR' (operation requested by the token requestor).    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "reason": {
+                        "description": "Free form reason why the Tokens are being suspended.    \n__Max Length:256__\n",
+                        "type": "string"
+                    },
+                    "reasonCode": {
+                        "description": "The reason for the action to be suspended. Must be one of 'SUSPECTED_FRAUD' (suspected fraudulent token transactions), 'OTHER' (Other - default used if value not provided).    \n__Max Length:64__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "UnSuspendResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    },
+                    "tokens": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "GetTaskStatusRequestSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "requestId": {
+                        "description": "Unique identifier for the request.\n",
+                        "type": "string"
+                    },
+                    "tokenRequestorId": {
+                        "description": "Identifies the Token Requestor      \n__Max Length:11__ \n",
+                        "type": "string"
+                    },
+                    "taskId": {
+                        "description": "Identifier for this task as assigned by the Token Requestor, unique across a given Token Requestor Identifier. May be used in the Get Task Status API to query the status of this task.     \n__Max Length:64__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "GetTaskStatusResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    },
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "The status of the specified task. Must be either 'PENDING' (The Task has been recieved and is pending processing), 'IN_PROGRESS' (The task is currently in progress), 'COMPLETED' (The task was completed successfully) or 'FAILED' The task was processed but failed to complete successfully.    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "errorCode": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains the reason the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    },
+                    "errorDescription": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains a description of why the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__  \n",
+                        "type": "string"
+                    },
+                    "errors": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "SearchTokensRequestSchema": {
+                "type": "object",
+                "properties": {
+                    "requestId": {
+                        "description": "Unique identifier for the request.\n",
+                        "type": "string"
+                    },
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "fundingAccountInfo": {
+                        "description": "Contains the information of the funding account to be tokenized. <br> \n __Note:__ fundingAccountInfo replaces cardInfo from previous versions.  \n",
+                        "type": ""
+                    },
+                    "tokenRequestorId": {
+                        "description": "Identifies the Token Requestor      \n__Max Length:11__ \n",
+                        "type": "string"
+                    }
+                }
+            },
+            "SearchTokensResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    },
+                    "tokens": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "GetTokenRequestSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "requestId": {
+                        "description": "Unique identifier for the request.\n",
+                        "type": "string"
+                    },
+                    "paymentAppInstanceId": {
+                        "description": "Identifier for the specific Mobile Payment App instance, unique across a given Wallet Identifier. This value cannot be changed after digitization. This field is alphanumeric and additionally web-safe base64 characters per RFC 4648 (minus \"-\", underscore \"_\") up to a maximum length of 48, = should not be URL encoded. Conditional - not applicable for server based tokens but required otherwise.    \n__Max Length:48__\n",
+                        "type": "string"
+                    },
+                    "tokenUniqueReference": {
+                        "description": "The unique reference allocated to the new Token. Serves as a unique identifier for all subsequent queries or management functions relating to this Token. Provided if the decision was APPROVED or REQUIRE_ADDITIONAL_AUTHENTICATION.   \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "includeTokenDetail": {
+                        "description": "Flag to indicate if the encrypted token should be returned.    \n__Max Length:5__ \n",
+                        "type": "string"
+                    }
+                }
+            },
+            "GetTokenResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    },
+                    "token": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "tokenDetail": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "errors": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "token": {
+                "type": "object",
+                "properties": {
+                    "tokenUniqueReference": {
+                        "description": "The unique reference allocated to the new Token. Serves as a unique identifier for all subsequent queries or management functions relating to this Token. Provided if the decision was APPROVED or REQUIRE_ADDITIONAL_AUTHENTICATION.   \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "The status of the specified task. Must be either 'PENDING' (The Task has been recieved and is pending processing), 'IN_PROGRESS' (The task is currently in progress), 'COMPLETED' (The task was completed successfully) or 'FAILED' The task was processed but failed to complete successfully.    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "suspendedBy": {
+                        "description": "(CONDITIONAL only supplied if status is SUSPENDED)\nWho or what caused the Token to be suspended One or more values of: \n   * ISSUER - Suspended by the Issuer.\n   * TOKEN_REQUESTOR - Suspended by the Token Requestor \n   * MOBILE_PIN_LOCKED - Suspended due to the Mobile PIN being locked\n   * CARDHOLDER - Suspended by the Cardholder <br>       \n  __Max Length__: N\/A    \n",
+                        "type": "array"
+                    },
+                    "statusTimestamp": {
+                        "description": "The date and time the token status was last updated. Expressed in ISO 8601 extended format as one of the following: \n   * YYYY-MM-DDThh:mm:ss[.sss]Z\n   * YYYY-MM-DDThh:mm:ss[.sss]\u00b1hh:mm\n   * Where [.sss] is optional and can be 1 to 3 digits. <br>\n __Max Length:29__\n \n",
+                        "type": "string"
+                    },
+                    "productConfig": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "tokenInfo": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "errorCode": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains the reason the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    },
+                    "errorDescription": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains a description of why the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__  \n",
+                        "type": "string"
+                    },
+                    "errors": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "GetDigitalAssetsRequestSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "requestId": {
+                        "description": "Unique identifier for the request.\n",
+                        "type": "string"
+                    },
+                    "encryptedPayload": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "getDigitalAssetsEncryptedData": {
+                "type": "object",
+                "properties": {
+                    "accountNumber": {
+                        "description": "The Primary Account Number for the transaction - this is the token PAN.\n<br>__Min Length: 9__ <br>__Max Length: 19__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "NotifyTokenUpdatedRequestSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "requestId": {
+                        "description": "Unique identifier for the request.\n",
+                        "type": "string"
+                    },
+                    "encryptedPayload": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "encryptedPayload": {
+                "type": "object",
+                "properties": {
+                    "publicKeyFingerprint": {
+                        "description": "The fingerprint of the public key used to encrypt the ephemeral AES key.    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "encryptedKey": {
+                        "description": "One-time use AES key encrypted by the MasterCard public key (as identified by publicKeyFingerprint) using the OAEP or PKCS#1 v1.5 scheme (depending on the value of oaepHashingAlgorithm.    \n__Max Length:512__\n",
+                        "type": "string"
+                    },
+                    "oaepHashingAlgorithm": {
+                        "description": "Hashing algorithm used with the OAEP scheme. Must be either SHA256 or SHA512.\n",
+                        "type": "string"
+                    },
+                    "iv": {
+                        "description": "The initialization vector used when encrypting data using the one-time use AES key. Must be exactly 16 bytes (32 character hex string) to match the block size. If not present, an IV of zero is assumed. Length - 32.\n",
+                        "type": "string"
+                    },
+                    "encryptedData": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "encryptedData": {
+                "type": "object"
+            },
+            "notifyTokenEncryptedPayload": {
+                "type": "object",
+                "properties": {
+                    "tokens": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "GetDigitalAssetsResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    },
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "brandLogoAssetId": {
+                        "description": "The MasterCard or Maestro brand logo associated with this card. Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset. Always returned in Product Configuration object <br>   \n__Max Length: 64__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "issuerLogoAssetId": {
+                        "description": "The logo of the issuing bank. Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset. Always returned in Product Configuration object <br>    \n__Max Length:64__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "isCoBranded": {
+                        "description": "Whether the product is co-branded. Must be either true (this is a co-branded product) or false (this is not a co-branded product). Always returned in Product Configuration object <br>   \n__Max Length:5__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "coBrandName": {
+                        "description": "Textual name of the co-brand partner. Required if CoBranded is true, not present otherwise.  <br>  \n__Max Length:128__<br>\n__Required: Conditional ? required if isCoBranded = \"true\". Not present otherwise__\n",
+                        "type": "string"
+                    },
+                    "coBrandLogoAssetId": {
+                        "description": "The co-brand logo (if any) for this product. Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset. <br>  \n__Max Length:64__<br>\n__Required: No__\n",
+                        "type": "string"
+                    },
+                    "cardBackgroundCombinedAssetId": {
+                        "description": "The card image used to represent the digital card in the wallet. This ?combined? option contains the MasterCard, bank and any co- brand logos.  Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset.    \n__Max Length:64__<br>\n__Required: Conditional ? either CardBackgroundCombined or CardBackground will be provided__\n",
+                        "type": "string"
+                    },
+                    "cardBackgroundAssetId": {
+                        "description": "The card image used to represent the digital card in the wallet. This ?non-combined? option does not contain the MasterCard, bank, or co-brand logos. Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset. <br>    \n__Max Length:64__<br>\n__Required: Conditional ? either CardBackgroundCombined or CardBackground will be provided__\n",
+                        "type": "string"
+                    },
+                    "iconAssetId": {
+                        "description": "The icon representing the primary brand(s) associated with this product. Provided as an Asset ID ? use the Get Asset API to retrieve the actual asset. Always returned in Product Configuration object<br>   \n__Max Length:64__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "foregroundColor": {
+                        "description": "Foreground color, used to overlay text on top of the card image. Always returned in Product Configuration object<br>   \n__Max Length:6__ Hexadecimal RGB color format (case-insensitive).<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "issuerName": {
+                        "description": "Name of the issuing bank. Always returned in Product Configuration object <br>   \n__Max Length:64__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "shortDescription": {
+                        "description": "A short description for this product. Always returned in Product Configuration object  <br>  \n__Max Length:128__<br>\n__Required: Yes__\n",
+                        "type": "string"
+                    },
+                    "longDescription": {
+                        "description": "A long description for this product.  <br>  \n__Max Length:256__<br>\n__Required: No__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "NotifyTokenUpdatedResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "TransactRequestSchema": {
+                "type": "object",
+                "properties": {
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "requestId": {
+                        "description": "Unique identifier for the request.\n",
+                        "type": "string"
+                    },
+                    "tokenUniqueReference": {
+                        "description": "The unique reference allocated to the new Token. Serves as a unique identifier for all subsequent queries or management functions relating to this Token. Provided if the decision was APPROVED or REQUIRE_ADDITIONAL_AUTHENTICATION.   \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "dsrpType": {
+                        "description": "What type of DSRP cryptogram to create. Must be either UCAF or M_CHIP.    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "unpredictableNumber": {
+                        "description": "HEX Encoded data (case sensitive) provided by the merchant to provide variability and uniqueness to the generation of a cryptogram. \n__Length:8__\n",
+                        "type": "string"
+                    },
+                    "amount": {
+                        "description": "Transaction amount to be authorized. Note that refund transactions are not supported ? this value must be a positive amount and can contain up to 12 digits, inclusive of any digits in the currency exponent.    \n__Max Length:13__\n",
+                        "type": "string"
+                    },
+                    "currencyCode": {
+                        "description": "The transaction currency. Expressed as a 3-character ISO 4217 currency code.\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "TransactResponseSchema": {
+                "type": "object",
+                "properties": {
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    },
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "encryptedPayload": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "errors": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "encryptedPayloadTransact": {
+                "type": "object",
+                "properties": {
+                    "publicKeyFingerprint": {
+                        "description": "The fingerprint of the public key used to encrypt the ephemeral AES key.    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "encryptedKey": {
+                        "description": "One-time use AES key encrypted by the MasterCard public key (as identified by publicKeyFingerprint) using the OAEP or PKCS#1 v1.5 scheme (depending on the value of oaepHashingAlgorithm.    \n__Max Length:512__\n",
+                        "type": "string"
+                    },
+                    "oaepHashingAlgorithm": {
+                        "description": "Hashing algorithm used with the OAEP scheme. Must be either SHA256 or SHA512.\n",
+                        "type": "string"
+                    },
+                    "iv": {
+                        "description": "The initialization vector used when encrypting data using the one-time use AES key. Must be exactly 16 bytes (32 character hex string) to match the block size. If not present, an IV of zero is assumed. Length - 32.\n",
+                        "type": "string"
+                    },
+                    "encryptedData": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "transactEncryptedData": {
+                "type": "object",
+                "properties": {
+                    "accountNumber": {
+                        "description": "The Primary Account Number for the transaction - this is the token PAN.\n<br>__Min Length: 9__ <br>__Max Length: 19__\n",
+                        "type": "string"
+                    },
+                    "applicationExpiryDate": {
+                        "description": "Application expiry date for the Token. Expressed in YYMMDD format. \n<br> __Length: 6__\n",
+                        "type": "string"
+                    },
+                    "panSequenceNumber": {
+                        "description": "Application PAN sequence number for the Token <br> \n__Length: 2__\n",
+                        "type": "string"
+                    },
+                    "track2Equivalent": {
+                        "description": "Track 2 equivalent data for the Token. Expressed according to ISO\/IEC 7813, excluding start sentinel, end sentinel, and Longitudinal Redundancy Check (LRC), using hex nibble 'D' as field separator, and padded to whole bytes using one hex nibble 'F' as needed.  <br>  \n__Max Length: 38__\n",
+                        "type": "string"
+                    },
+                    "de48se43Data": {
+                        "description": "Data for DE 48 Subelement 43 containing the cryptogram.<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    },
+                    "de55Data": {
+                        "description": "Data for DE 55 if present<br>\n__Max Length: 200__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "ErrorsResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains the reason the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    },
+                    "errorDescription": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains a description of why the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__  \n",
+                        "type": "string"
+                    },
+                    "responseHost": {
+                        "description": "\"The host that originated the request. Future calls in the same conversation may be routed to this host. Must be provided as: host[:port][\/contextRoot] Where port and contextRoot are optional. If contextRoot is not provided, the default (per the URL Scheme) is assumed and must be used.\"\n",
+                        "type": "string"
+                    },
+                    "responseId": {
+                        "description": "Unique identifier for the response.\n",
+                        "type": "string"
+                    },
+                    "Errors": {
+                        "description": "Reference",
+                        "type": "object"
+                    },
+                    "errors": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "Errors": {
+                "type": "object"
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "description": "An element used to indicate the source of the issue causing this error. Must be one of \n * 'MDES'\n * 'INPUT'<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    },
+                    "errorCode": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains the reason the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Description of the reason the operation failed. See API Response Errors <br>\n__Max Length: 256__\n",
+                        "type": "string"
+                    },
+                    "reasonCode": {
+                        "description": "The reason for the action to be suspended. Must be one of 'SUSPECTED_FRAUD' (suspected fraudulent token transactions), 'OTHER' (Other - default used if value not provided).    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "recoverable": {
+                        "description": "Generated by the gateway to indicate if the request could presented again for processing. Either \"TRUE\" or \"FALSE\"\n",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "TransactError": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "description": "An element used to indicate the source of the issue causing this error. Must be one of \n * 'MDES'\n * 'INPUT'<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    },
+                    "errorCode": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains the reason the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Description of the reason the operation failed. See API Response Errors <br>\n__Max Length: 256__\n",
+                        "type": "string"
+                    },
+                    "reasonCode": {
+                        "description": "The reason for the action to be suspended. Must be one of 'SUSPECTED_FRAUD' (suspected fraudulent token transactions), 'OTHER' (Other - default used if value not provided).    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "errorDescription": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains a description of why the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__  \n",
+                        "type": "string"
+                    }
+                }
+            },
+            "fundingAccountInfo-EncryptedPayload": {
+                "type": "object",
+                "properties": {
+                    "publicKeyFingerprint": {
+                        "description": "The fingerprint of the public key used to encrypt the ephemeral AES key.    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "encryptedKey": {
+                        "description": "One-time use AES key encrypted by the MasterCard public key (as identified by publicKeyFingerprint) using the OAEP or PKCS#1 v1.5 scheme (depending on the value of oaepHashingAlgorithm.    \n__Max Length:512__\n",
+                        "type": "string"
+                    },
+                    "oaepHashingAlgorithm": {
+                        "description": "Hashing algorithm used with the OAEP scheme. Must be either SHA256 or SHA512.\n",
+                        "type": "string"
+                    },
+                    "iv": {
+                        "description": "The initialization vector used when encrypting data using the one-time use AES key. Must be exactly 16 bytes (32 character hex string) to match the block size. If not present, an IV of zero is assumed. Length - 32.\n",
+                        "type": "string"
+                    },
+                    "encryptedData": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "FundingAccountData": {
+                "type": "object",
+                "properties": {
+                    "cardAccountData": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "accountHolderData": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "source": {
+                        "description": "An element used to indicate the source of the issue causing this error. Must be one of \n * 'MDES'\n * 'INPUT'<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "cardAccountData": {
+                "type": "object"
+            },
+            "accountHolderData": {
+                "type": "object",
+                "properties": {
+                    "accountHolderName": {
+                        "description": "__(OPTIONAL)__\nThe name of the cardholder in the format LASTNAME\/FIRSTNAME or FIRSTNAME LASTNAME<br>\n__Max Length:27__\n",
+                        "type": "string"
+                    },
+                    "accountHolderAddress": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "consumerIdentifier": {
+                        "description": "__(OPTIONAL)__\nCustomer Identifier that may be required in some regions.<br>\n__Max Length:88__\n",
+                        "type": "string"
+                    },
+                    "accountHolderEmailAddress": {
+                        "description": "__(OPTIONAL)__\nThe e-mail address of the Account Holder<br>\n__Max Length: 320__\n",
+                        "type": "string"
+                    },
+                    "accountHolderMobilePhoneNumber": {
+                        "description": "__(OPTIONAL)__\nThe mobile phone number of the account holder.\n",
+                        "type": ""
+                    }
+                }
+            },
+            "accountHolderAddress": {
+                "type": "object"
+            },
+            "accountHolderMobilePhoneNumber": {
+                "type": "object"
+            },
+            "accountHolderData_outbound": {
+                "type": "object",
+                "properties": {
+                    "accountHolderName": {
+                        "description": "__(OPTIONAL)__\nThe name of the cardholder in the format LASTNAME\/FIRSTNAME or FIRSTNAME LASTNAME<br>\n__Max Length:27__\n",
+                        "type": "string"
+                    },
+                    "accountHolderAddress": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "accountHolderEmailAddress": {
+                        "description": "__(OPTIONAL)__\nThe e-mail address of the Account Holder<br>\n__Max Length: 320__\n",
+                        "type": "string"
+                    },
+                    "accountHolderMobilePhoneNumber": {
+                        "description": "__(OPTIONAL)__\nThe mobile phone number of the account holder.\n",
+                        "type": ""
+                    }
+                }
+            },
+            "PhoneNumber": {
+                "type": "object",
+                "properties": {
+                    "countryDialInCode": {
+                        "description": "__(OPTIONAL)__\nThe country code for the phone number. E.g. 1 for US or 44 for UK.<br>\n__Max Length: 4__\n",
+                        "type": "number"
+                    },
+                    "phoneNumber": {
+                        "description": "__(OPTIONAL)__\nThe phone number of the account holder <br> \n__Max Length: 20__\n",
+                        "type": "number"
+                    }
+                }
+            },
+            "CardAccountData_inbound": {
+                "type": "object",
+                "properties": {
+                    "accountNumber": {
+                        "description": "The Primary Account Number for the transaction - this is the token PAN.\n<br>__Min Length: 9__ <br>__Max Length: 19__\n",
+                        "type": "string"
+                    },
+                    "expiryMonth": {
+                        "description": "\n\nThe expiry month for the account. Two numeric digits must be supplied. \n<br>Only supplied in tokenization requests if panUniqueReference or tokenUniqueReferenceForPanInfo or pushAccountReceipt is not present.\n\n__Format: MM__<br>\n__Exact Length:2__\n",
+                        "type": "string"
+                    },
+                    "expiryYear": {
+                        "description": "__(Required as minimum for Tokenization)__ \nThe expiry year for the account.\n<br>Only supplied in tokenization requests if panUniqueReference or tokenUniqueReferenceForPanInfo or pushAccountReceipt is not present.\n\n\n__Format: YY__ <br>\n__Exact Length:2__\n",
+                        "type": "string"
+                    },
+                    "securityCode": {
+                        "description": "__(OPTIONAL)__\nThe security code for the account can optionally be provided for Tokenization. If provided, the validity will be checked. <br>\nOptional in a Tokenize request, not present otherwise.\n__Max Length:3__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "CardAccountData_outbound": {
+                "type": "object",
+                "properties": {
+                    "accountNumber": {
+                        "description": "The Primary Account Number for the transaction - this is the token PAN.\n<br>__Min Length: 9__ <br>__Max Length: 19__\n",
+                        "type": "string"
+                    },
+                    "expiryMonth": {
+                        "description": "\n\nThe expiry month for the account. Two numeric digits must be supplied. \n<br>Only supplied in tokenization requests if panUniqueReference or tokenUniqueReferenceForPanInfo or pushAccountReceipt is not present.\n\n__Format: MM__<br>\n__Exact Length:2__\n",
+                        "type": "string"
+                    },
+                    "expiryYear": {
+                        "description": "__(Required as minimum for Tokenization)__ \nThe expiry year for the account.\n<br>Only supplied in tokenization requests if panUniqueReference or tokenUniqueReferenceForPanInfo or pushAccountReceipt is not present.\n\n\n__Format: YY__ <br>\n__Exact Length:2__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "billingAddress": {
+                "type": "object",
+                "properties": {
+                    "line1": {
+                        "description": "__(OPTIONAL)__<br>\nThe first line of the street address for the billing address.<br>\n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "line2": {
+                        "description": "__(OPTIONAL)__\nThe second line of the street address for the billing address.<br>\n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "city": {
+                        "description": "__(OPTIONAL)__<br>\nThe city of the billing address.<br>\n__Max Length:32__\n",
+                        "type": "string"
+                    },
+                    "countrySubdivision": {
+                        "description": "__(OPTIONAL)__<br>\nThe state or country subdivision of the billing address.<br>\n__Max Length:12__\n",
+                        "type": "string"
+                    },
+                    "postalCode": {
+                        "description": "__(OPTIONAL)__<br>\nThe postal of code of the billing address.<br>\n__Max Length:16__\n",
+                        "type": "string"
+                    },
+                    "country": {
+                        "description": "__(OPTIONAL)__\nThe country of the billing address. <br>\n__Max Length:3__\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "recommendationReasons": {
+                "type": "array"
+            },
+            "issuerMobileApp": {
+                "type": "object"
+            },
+            "tokenDetail_PAR_Only": {
+                "type": "object",
+                "properties": {
+                    "tokenUniqueReference": {
+                        "description": "The unique reference allocated to the new Token. Serves as a unique identifier for all subsequent queries or management functions relating to this Token. Provided if the decision was APPROVED or REQUIRE_ADDITIONAL_AUTHENTICATION.   \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "publicKeyFingerprint": {
+                        "description": "The fingerprint of the public key used to encrypt the ephemeral AES key.    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "encryptedKey": {
+                        "description": "One-time use AES key encrypted by the MasterCard public key (as identified by publicKeyFingerprint) using the OAEP or PKCS#1 v1.5 scheme (depending on the value of oaepHashingAlgorithm.    \n__Max Length:512__\n",
+                        "type": "string"
+                    },
+                    "oaepHashingAlgorithm": {
+                        "description": "Hashing algorithm used with the OAEP scheme. Must be either SHA256 or SHA512.\n",
+                        "type": "string"
+                    },
+                    "iv": {
+                        "description": "The initialization vector used when encrypting data using the one-time use AES key. Must be exactly 16 bytes (32 character hex string) to match the block size. If not present, an IV of zero is assumed. Length - 32.\n",
+                        "type": "string"
+                    },
+                    "encryptedData": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "tokenDetailData": {
+                "type": "object",
+                "properties": {
+                    "accountHolderData": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "CardAccountData_outbound": {
+                        "description": "__(CONDITIONAL)__<br>\nThe credit or debit card information for the account that is being tokenized.  Present in tokenize response if supported by the Token Requestor, if using a pushAccountReceipt and if there is a card account associated with the pushAccountReceipt in case that the issuer decision is not DECLINED. <\/br>\n",
+                        "type": "object"
+                    },
+                    "cardAccountData": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "paymentAccountReference": {
+                        "description": "\"The unique account reference assigned to the PAN. Conditionally returned if the Token Requestor has opted to receive PAR and providing PAR is assigned by Mastercard or the Issuer provides PAR in the authorization message response.    __Max Length:__ - 29\"\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "tokenDetailData_TCC_Only": {
+                "type": "object",
+                "properties": {
+                    "accountHolderData_outbound": {
+                        "description": "__(CONDITIONAL)__<br>\nPresent in tokenize response if supported by the Merchant, if using a pushAccountReceipt and if there is account holder data associated with the pushAccountReceipt in case that the issuer decision is APPROVED. Refer to <a href=\"https:\/\/developer.mastercard.com\/devzone\/api\/portal\/download\/0000016a-f9a1-d055-ad7a-f9efc8d50000\">MDES Token Connect Token Requestor Implementation Guide and Specification <\/a> for more details. <\/br>\n",
+                        "type": "object"
+                    },
+                    "accountHolderData": {
+                        "description": "",
+                        "type": ""
+                    },
+                    "paymentAccountReference": {
+                        "description": "\"The unique account reference assigned to the PAN. Conditionally returned if the Token Requestor has opted to receive PAR and providing PAR is assigned by Mastercard or the Issuer provides PAR in the authorization message response.    __Max Length:__ - 29\"\n",
+                        "type": "string"
+                    },
+                    "CardAccountData_outbound": {
+                        "description": "__(CONDITIONAL)__<br>\nThe credit or debit card information for the account that is being tokenized.  Present in tokenize response if supported by the Token Requestor, if using a pushAccountReceipt and if there is a card account associated with the pushAccountReceipt in case that the issuer decision is not DECLINED. <\/br>\n",
+                        "type": "object"
+                    },
+                    "cardAccountData": {
+                        "description": "",
+                        "type": ""
+                    }
+                }
+            },
+            "tokenDetailData_PAR_Only": {
+                "type": "object",
+                "properties": {
+                    "paymentAccountReference": {
+                        "description": "\"The unique account reference assigned to the PAN. Conditionally returned if the Token Requestor has opted to receive PAR and providing PAR is assigned by Mastercard or the Issuer provides PAR in the authorization message response.    __Max Length:__ - 29\"\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "suspendedBy": {
+                "type": "array"
+            },
+            "token_for_LCM": {
+                "type": "object",
+                "properties": {
+                    "tokenUniqueReference": {
+                        "description": "The unique reference allocated to the new Token. Serves as a unique identifier for all subsequent queries or management functions relating to this Token. Provided if the decision was APPROVED or REQUIRE_ADDITIONAL_AUTHENTICATION.   \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "The status of the specified task. Must be either 'PENDING' (The Task has been recieved and is pending processing), 'IN_PROGRESS' (The task is currently in progress), 'COMPLETED' (The task was completed successfully) or 'FAILED' The task was processed but failed to complete successfully.    \n__Max Length:64__\n",
+                        "type": "string"
+                    },
+                    "suspendedBy": {
+                        "description": "(CONDITIONAL only supplied if status is SUSPENDED)\nWho or what caused the Token to be suspended One or more values of: \n   * ISSUER - Suspended by the Issuer.\n   * TOKEN_REQUESTOR - Suspended by the Token Requestor \n   * MOBILE_PIN_LOCKED - Suspended due to the Mobile PIN being locked\n   * CARDHOLDER - Suspended by the Cardholder <br>       \n  __Max Length__: N\/A    \n",
+                        "type": "array"
+                    },
+                    "statusTimestamp": {
+                        "description": "The date and time the token status was last updated. Expressed in ISO 8601 extended format as one of the following: \n   * YYYY-MM-DDThh:mm:ss[.sss]Z\n   * YYYY-MM-DDThh:mm:ss[.sss]\u00b1hh:mm\n   * Where [.sss] is optional and can be 1 to 3 digits. <br>\n __Max Length:29__\n \n",
+                        "type": "string"
+                    },
+                    "errorCode": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains the reason the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__\n",
+                        "type": "string"
+                    },
+                    "errorDescription": {
+                        "description": "__CONDITIONAL__<br> Returned in the event of an error and contains a description of why the operation failed. Only use if errors object is not present.<br>\n__Max Length: 32__  \n",
+                        "type": "string"
+                    },
+                    "errors": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            }
+        }
+    }
+}
