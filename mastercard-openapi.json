@@ -1,0 +1,493 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "",
+        "title": "MasterCard",
+        "description": "As a technology company in the global payments business, we operate the world???s fastest payments processing network, connecting consumers, financial institutions, merchants, governments and businesses in more than 210 countries and territories. Mastercard???s products and solutions make everyday commerce activities ??? such as shopping, traveling, running a business and managing finances ??? easier, more secure and more efficient for everyone.",
+        "termsOfService": ""
+    },
+    "servers": [
+        "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1"
+    ],
+    "paths": {
+        "\/status": {
+            "get": {
+                "summary": "Get Status",
+                "description": "Gets general metadata about the current state of the blockchain network.\nUseful for building dashboards.\n",
+                "operationId": "GetStatus",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    }
+                ]
+            }
+        },
+        "\/node": {
+            "get": {
+                "summary": "Get Node",
+                "description": "By default, this call gets information about your local node and its\nconnections. The `scope` parameter enabled this query to be extended\nto get further information about nodes that are visible to your node.\n",
+                "operationId": "GetNode",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    },
+                    {
+                        "name": "scope",
+                        "in": "query",
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "\/node\/{address}": {
+            "get": {
+                "summary": "Get Node Address",
+                "description": "Information about a specific node may be retrieved by its address.\nThis is useful when navigating the network.\n",
+                "operationId": "GetNodeAddress",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    },
+                    {
+                        "name": "address",
+                        "in": "path",
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "\/app\/{id}": {
+            "get": {
+                "summary": "Get App",
+                "description": "Information about an application referenced by the `id` parameter. If\nyou are permissioned to that application, this will also return the\nmessage definitions you will need to comply with to issue valid transaction\nentries for that application.\n",
+                "operationId": "GetApp",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": ""
+                    }
+                ]
+            },
+            "post": {
+                "summary": "Add App",
+                "description": "When you are permissioned onto the network, you will be issued one or\nmore `id`s to use. You may then send or update configurations of the\ntransaction message types you wish to use. These are specified using\nProtocol Buffer version 3 files as specified\n[here](https:\/\/developers.google.com\/protocol-buffers\/docs\/proto3)\nThis specification may be sent either as the canonical JSON transform\nor the native `.proto` file encoded as hex, base58 or base64.\n",
+                "operationId": "PostApp",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": ""
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "\/address\/{address}": {
+            "get": {
+                "summary": "Get Address Address",
+                "description": "Information about a particular address on the network. Note that this\ncall may return information about a blockchain node or a signing entity.\nAlso, the level of detail returned will vary depending on your permissions\nfor the query target.\n",
+                "operationId": "GetAddressAddress",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    },
+                    {
+                        "name": "address",
+                        "in": "path",
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "\/block": {
+            "get": {
+                "summary": "Get Block",
+                "description": "By default, this call returns the last confirmed block, since the `from`\nand `to` parameters will both default to the last confirmed slot number.\nTo get a range of blocks, use the `from` and `to` parameters. Specifying\nonly the `from` parameter will get a range of blocks up to the current slot.\nNote that this also means that specifying `to` without `from` will result\nin an error since that will mean a negative range.\n\nFor each returned item, the data will contain header information from\nthe bloc",
+                "operationId": "GetBlock",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Specify the starting slot to return"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "Specify the last slot to return"
+                    }
+                ]
+            }
+        },
+        "\/block\/{key}": {
+            "get": {
+                "summary": "Get Block Key",
+                "description": "A specific block may be retrieved by its hash key. This is useful when\nnavigating the chain.\n",
+                "operationId": "GetBlockKey",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    },
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "description": "The hash key of the block to retrieve."
+                    }
+                ]
+            }
+        },
+        "\/entry": {
+            "put": {
+                "summary": "Put Entry",
+                "description": "Add a transaction entry for your application to the blockchain. Note that\nthis entry must be a valid message according to the application configuration\nthat you set up.\n",
+                "operationId": "PutEntry",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "\/entry\/{key}": {
+            "get": {
+                "summary": "Get Entry Key",
+                "description": "Returns full detail of the value of the blockchain entry\nreferenced by the specified key, if it has been previously recorded\nby your node's key-value store (database).\n",
+                "operationId": "GetEntryKey",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    },
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "description": "The hash key of the block to retrieve."
+                    }
+                ]
+            }
+        },
+        "\/support\/encoding": {
+            "post": {
+                "summary": "Add Support Encoding",
+                "description": "A utility function that can be used temporarily if you don't have a\nlibrary handy for a specific encoding. Provides transforms between\nBase-58, Base-64 and Hexadecimal encodings. You specify the input format\nand output format you wish, and a list of values to transcode.\n",
+                "operationId": "PostSupportEncoding",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "MCWSSAML",
+                        "in": "header",
+                        "description": "SAML Authorization"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": ""
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AppConfig": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "description": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "version": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "definition": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "AppInfo": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "description": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "version": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "owner": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "definition": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "AddressInfo": {
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "owner": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "type": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "authority": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "Block": {
+                "type": "object",
+                "properties": {
+                    "network": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "version": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "previous_block": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "partitions": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "nonce": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "authority": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "signature": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "NodeInfo": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "services": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "address": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "ip": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "port": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "authority": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "connections": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "last_active": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "DataPartition": {
+                "type": "object",
+                "properties": {
+                    "application": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "entries": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "merkle_root": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "EntryRequest": {
+                "type": "object",
+                "properties": {
+                    "app": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "encoding": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "value": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "EntryResponse": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "slot": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "status": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "EntryInfo": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "slot": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "status": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "value": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "ValidationError": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "message": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "fields": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "AuthorizationError": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "message": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            },
+            "SystemError": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "",
+                        "type": "post"
+                    },
+                    "message": {
+                        "description": "",
+                        "type": "post"
+                    }
+                }
+            }
+        }
+    }
+}
