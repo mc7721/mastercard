@@ -1,0 +1,156 @@
+{
+    "id": "fcaa00fc7f0ee1bbfe0f5076df1ab7b2",
+    "name": "Qkr! API",
+    "description": null,
+    "auth": null,
+    "events": null,
+    "variables": [],
+    "order": [],
+    "folders_order": [],
+    "folders": [],
+    "requests": [
+        {
+            "id": "5979b41ab39cf4176d301a42ae71325a",
+            "name": "Lists Order Ahead Menus",
+            "url": "http:\/\/api.mastercard.com\/labs\/proxy\/qkr2\/internal\/api2\/orderAheadMenu\/orderAhead",
+            "description": "Get OrderAhead menu",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "menuTypes",
+                    "description": "Menu Type (comma separated list from OrderAtTable, Collection, Delivery)",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "merchantName",
+                    "description": "Merchant name",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "orderTime",
+                    "description": "Order Time (millis since epoch)",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "siteName",
+                    "description": "Site name",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "fcaa00fc7f0ee1bbfe0f5076df1ab7b2",
+            "rawModeData": ""
+        },
+        {
+            "id": "8831124eb6d5be9851266aebdb4a9d9a",
+            "name": "Lists Merchants",
+            "url": "http:\/\/api.mastercard.com\/labs\/proxy\/qkr2\/internal\/api2\/merchant",
+            "description": "Lists merchants belonging to the calling partner",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "latitude",
+                    "description": "Latitude coordinate of the required merchants.  If no latitude or longitude are supplied, all merchants configured for the calling partner will be returned",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "longitude",
+                    "description": "Longitude coordinate of the required merchants.  If no latitude or longitude are supplied, all merchants configured for the calling partner will be returned",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "queryString",
+                    "description": "Filter outlet by checking if merchant and outlet's name contains the queryString .  If no queryString is supplied, all merchants configured for the calling partner will be returned",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "fcaa00fc7f0ee1bbfe0f5076df1ab7b2",
+            "rawModeData": ""
+        },
+        {
+            "id": "9296a0b26032d31a3e724e97a7f0526a",
+            "name": "Create An Order",
+            "url": "http:\/\/api.mastercard.com\/labs\/proxy\/qkr2\/internal\/api2\/order\/pat",
+            "description": "Creates a new order on the POS for Pay at Table",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "post",
+            "pathVariableData": [],
+            "queryParams": [],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "fcaa00fc7f0ee1bbfe0f5076df1ab7b2",
+            "rawModeData": ""
+        },
+        {
+            "id": "328b2e39a99a9498ca01a17db34f8944",
+            "name": "Creates An Authorization",
+            "url": "http:\/\/api.mastercard.com\/labs\/proxy\/qkr2\/internal\/api2\/auth\/payment",
+            "description": "Creates an authorization against a payment card for the specified amount.  This method returns an authCode that must be used when doing the capture of the payment on the card.",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "post",
+            "pathVariableData": [],
+            "queryParams": [],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "fcaa00fc7f0ee1bbfe0f5076df1ab7b2",
+            "rawModeData": ""
+        }
+    ]
+}
