@@ -1,0 +1,438 @@
+{
+    "id": "604735a54685cdd8e860df86ae40c263",
+    "name": "MasterCard",
+    "description": null,
+    "auth": null,
+    "events": null,
+    "variables": [],
+    "order": [],
+    "folders_order": [],
+    "folders": [],
+    "requests": [
+        {
+            "id": "ed0f468da1e8e0a99e6fadec46f20445",
+            "name": "Get Status",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/status",
+            "description": "Gets general metadata about the current state of the blockchain network.\nUseful for building dashboards.\n",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        },
+        {
+            "id": "9d7b6a21ef31d780fba86fd181a72443",
+            "name": "Get Node",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/node",
+            "description": "By default, this call gets information about your local node and its\nconnections. The `scope` parameter enabled this query to be extended\nto get further information about nodes that are visible to your node.\n",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "scope",
+                    "description": "",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        },
+        {
+            "id": "ff44be0a866db3b19f011584d0dbe8c8",
+            "name": "Get Node Address",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/node\/{address}",
+            "description": "Information about a specific node may be retrieved by its address.\nThis is useful when navigating the network.\n",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "address",
+                    "description": "",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        },
+        {
+            "id": "773907d82743a69255fc5d38d9e054dc",
+            "name": "Get App",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/app\/{id}",
+            "description": "Information about an application referenced by the `id` parameter. If\nyou are permissioned to that application, this will also return the\nmessage definitions you will need to comply with to issue valid transaction\nentries for that application.\n",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "id",
+                    "description": "",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        },
+        {
+            "id": "19408db13f59f4529f30d89311c80fd0",
+            "name": "Add App",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/app\/{id}",
+            "description": "When you are permissioned onto the network, you will be issued one or\nmore `id`s to use. You may then send or update configurations of the\ntransaction message types you wish to use. These are specified using\nProtocol Buffer version 3 files as specified\n[here](https:\/\/developers.google.com\/protocol-buffers\/docs\/proto3)\nThis specification may be sent either as the canonical JSON transform\nor the native `.proto` file encoded as hex, base58 or base64.\n",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "post",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "id",
+                    "description": "",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "body",
+                    "description": "",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        },
+        {
+            "id": "13e2aed40fce8f792b367c5749f4636f",
+            "name": "Get Address Address",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/address\/{address}",
+            "description": "Information about a particular address on the network. Note that this\ncall may return information about a blockchain node or a signing entity.\nAlso, the level of detail returned will vary depending on your permissions\nfor the query target.\n",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "address",
+                    "description": "",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        },
+        {
+            "id": "b6f2218bd96570b91495d26035808914",
+            "name": "Get Block",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/block",
+            "description": "By default, this call returns the last confirmed block, since the `from`\nand `to` parameters will both default to the last confirmed slot number.\nTo get a range of blocks, use the `from` and `to` parameters. Specifying\nonly the `from` parameter will get a range of blocks up to the current slot.\nNote that this also means that specifying `to` without `from` will result\nin an error since that will mean a negative range.\n\nFor each returned item, the data will contain header information from\nthe bloc",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "from",
+                    "description": "Specify the starting slot to return",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "to",
+                    "description": "Specify the last slot to return",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        },
+        {
+            "id": "52ec45ce671d8b54552a3a3f95a90a19",
+            "name": "Get Block Key",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/block\/{key}",
+            "description": "A specific block may be retrieved by its hash key. This is useful when\nnavigating the chain.\n",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "key",
+                    "description": "The hash key of the block to retrieve.",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        },
+        {
+            "id": "58c77a82b11dbd3174cf6f641fde9c82",
+            "name": "Put Entry",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/entry",
+            "description": "Add a transaction entry for your application to the blockchain. Note that\nthis entry must be a valid message according to the application configuration\nthat you set up.\n",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "put",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "body",
+                    "description": "",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        },
+        {
+            "id": "5381c16486d0a64e123387a2b73848db",
+            "name": "Get Entry Key",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/entry\/{key}",
+            "description": "Returns full detail of the value of the blockchain entry\nreferenced by the specified key, if it has been previously recorded\nby your node's key-value store (database).\n",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "get",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "key",
+                    "description": "The hash key of the block to retrieve.",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        },
+        {
+            "id": "4b2d9db0f9ea3db881498ea32124ad8a",
+            "name": "Add Support Encoding",
+            "url": "httpseas5stl0.mastercard.int:13046\/z0\/core\/v1\/support\/encoding",
+            "description": "A utility function that can be used temporarily if you don't have a\nlibrary handy for a specific encoding. Provides transforms between\nBase-58, Base-64 and Hexadecimal encodings. You specify the input format\nand output format you wish, and a list of values to transcode.\n",
+            "data": [],
+            "dataMode": "raw",
+            "headerData": null,
+            "method": "post",
+            "pathVariableData": [],
+            "queryParams": [
+                {
+                    "key": "MCWSSAML",
+                    "description": "SAML Authorization",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                },
+                {
+                    "key": "body",
+                    "description": "",
+                    "value": "",
+                    "equals": true,
+                    "enabled": true
+                }
+            ],
+            "auth": null,
+            "events": null,
+            "folder": null,
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "responses": [],
+            "currentHelper": null,
+            "helperAttributes": null,
+            "collectionId": "604735a54685cdd8e860df86ae40c263",
+            "rawModeData": ""
+        }
+    ]
+}
