@@ -1,0 +1,397 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "0.5.0",
+        "title": "Mastercard Blockchain",
+        "description": "The Mastercard Blockchain REST\/JSON API provides a foundation for prototyping\nblockchain applications and to become familiar with the principles of blockchain\ntechnology, all using an advanced, high-performance, blockchain implementation\nfrom Mastercard.\n\nThe API allows you to specify your own transaction types and flows to meet any\nbusiness need. A good guideline to using blockchain effectively is to first decide\n\"What data is it that we need to share?\". You will also want to check out our\nSmart Contract API as your functionality requirements get more complex.\n\nAs your use case progresses, you will likely want to move from a fully hosted\n\"Blockchain as a Service\" solution to running your own nodes and value stores\nfounded on our lower-level protocols and core services to truly leverage the\npower of this inherently distributed technology. Talk to us when you reach this\npoint and wish to move towards a fully distributed, enterprise-grade solution.\n\nIn this API, you will also find extens",
+        "termsOfService": "http:\/\/exmple.com\/license\/"
+    },
+    "servers": [
+        "http:\/\/eas5stl0.mastercard.com\/z0\/core\/v1"
+    ],
+    "paths": {
+        "\/status": {
+            "get": {
+                "summary": "Get Status",
+                "description": "Gets general metadata about the current state of the blockchain network.\nUseful for building dashboards.\n",
+                "operationId": "",
+                "deprecated": 0,
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful completion",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$href": "#\/components\/schemas\/NodeInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/node": {
+            "get": {
+                "summary": "Get Node",
+                "description": "By default, this call gets information about your local node and its\nconnections. The `scope` parameter enabled this query to be extended\nto get further information about nodes that are visible to your node.\n",
+                "operationId": "",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "scope",
+                        "in": "query",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful completion",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$href": "#\/components\/schemas\/NodeInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/node\/{address}": {
+            "get": {
+                "summary": "Get Node Address",
+                "description": "Information about a specific node may be retrieved by its address.\nThis is useful when navigating the network.\n",
+                "operationId": "",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "address",
+                        "in": "path",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful completion",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$href": "#\/components\/schemas\/NodeInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/app\/{id}": {
+            "get": {
+                "summary": "Get App",
+                "description": "Information about an application referenced by the `id` parameter. If\nyou are permissioned to that application, this will also return the\nmessage definitions you will need to comply with to issue valid transaction\nentries for that application.\n",
+                "operationId": "",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful completion",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$href": "#\/components\/schemas\/NodeInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Post App",
+                "description": "When you are permissioned onto the network, you will be issued one or\nmore `id`s to use. You may then send or update configurations of the\ntransaction message types you wish to use. These are specified using\nProtocol Buffer version 3 files as specified\n[here](https:\/\/developers.google.com\/protocol-buffers\/docs\/proto3)\nThis specification may be sent either as the canonical JSON transform\nor the native `.proto` file encoded as hex, base58 or base64.\n",
+                "operationId": "",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": ""
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AppConfig": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "version": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "definition": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "definition": {
+                "type": "object"
+            },
+            "AppInfo": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "version": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "owner": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "definition": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "AddressInfo": {
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "owner": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "authority": {
+                        "description": "The referenced public key",
+                        "type": "string"
+                    }
+                }
+            },
+            "Block": {
+                "type": "object",
+                "properties": {
+                    "network": {
+                        "description": "Unique identifier for the Mastercard Blockchain Network",
+                        "type": "integer"
+                    },
+                    "version": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "previous_block": {
+                        "description": "The SHA256D hash of the previous block, encoded as hex",
+                        "type": "string"
+                    },
+                    "partitions": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "nonce": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "authority": {
+                        "description": "The referenced public key",
+                        "type": "string"
+                    },
+                    "signature": {
+                        "description": "The signature confirmation from the audit nodes",
+                        "type": "string"
+                    }
+                }
+            },
+            "partitions": {
+                "type": "array"
+            },
+            "NodeInfo": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "services": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "address": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "ip": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "port": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "authority": {
+                        "description": "The referenced public key",
+                        "type": "string"
+                    },
+                    "connections": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "last_active": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "connections": {
+                "type": "array"
+            },
+            "DataPartition": {
+                "type": "object",
+                "properties": {
+                    "application": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "entries": {
+                        "description": "The number of entries referred to by the merkle root hash",
+                        "type": "integer"
+                    },
+                    "merkle_root": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "EntryRequest": {
+                "type": "object",
+                "properties": {
+                    "app": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "encoding": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "value": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "EntryResponse": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "slot": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "status": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "EntryInfo": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "slot": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "status": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "value": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "ValidationError": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "message": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "fields": {
+                        "description": "",
+                        "type": "array"
+                    }
+                }
+            },
+            "fields": {
+                "type": "array"
+            },
+            "AuthorizationError": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "message": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "SystemError": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "message": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
