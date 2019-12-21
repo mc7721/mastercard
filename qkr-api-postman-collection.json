@@ -1,5 +1,5 @@
 {
-    "id": "fcaa00fc7f0ee1bbfe0f5076df1ab7b2",
+    "id": "bd65c826f7701d1bff9358db7c0daa85",
     "name": "Qkr! API",
     "description": null,
     "auth": null,
@@ -10,7 +10,7 @@
     "folders": [],
     "requests": [
         {
-            "id": "5979b41ab39cf4176d301a42ae71325a",
+            "id": "03e6fec28518cab0da12d146cec86ac3",
             "name": "Lists Order Ahead Menus",
             "url": "http:\/\/api.mastercard.com\/labs\/proxy\/qkr2\/internal\/api2\/orderAheadMenu\/orderAhead",
             "description": "Get OrderAhead menu",
@@ -58,11 +58,11 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "fcaa00fc7f0ee1bbfe0f5076df1ab7b2",
+            "collectionId": "bd65c826f7701d1bff9358db7c0daa85",
             "rawModeData": ""
         },
         {
-            "id": "8831124eb6d5be9851266aebdb4a9d9a",
+            "id": "74ab4c8623c7c8361c180a90c592bdf0",
             "name": "Lists Merchants",
             "url": "http:\/\/api.mastercard.com\/labs\/proxy\/qkr2\/internal\/api2\/merchant",
             "description": "Lists merchants belonging to the calling partner",
@@ -103,11 +103,11 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "fcaa00fc7f0ee1bbfe0f5076df1ab7b2",
+            "collectionId": "bd65c826f7701d1bff9358db7c0daa85",
             "rawModeData": ""
         },
         {
-            "id": "9296a0b26032d31a3e724e97a7f0526a",
+            "id": "74050e5008289b8903980cc9aa4098db",
             "name": "Create An Order",
             "url": "http:\/\/api.mastercard.com\/labs\/proxy\/qkr2\/internal\/api2\/order\/pat",
             "description": "Creates a new order on the POS for Pay at Table",
@@ -126,11 +126,11 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "fcaa00fc7f0ee1bbfe0f5076df1ab7b2",
+            "collectionId": "bd65c826f7701d1bff9358db7c0daa85",
             "rawModeData": ""
         },
         {
-            "id": "328b2e39a99a9498ca01a17db34f8944",
+            "id": "3a2c9764d8516625de8aa9aaee760a1a",
             "name": "Creates An Authorization",
             "url": "http:\/\/api.mastercard.com\/labs\/proxy\/qkr2\/internal\/api2\/auth\/payment",
             "description": "Creates an authorization against a payment card for the specified amount.  This method returns an authCode that must be used when doing the capture of the payment on the card.",
@@ -149,7 +149,7 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "fcaa00fc7f0ee1bbfe0f5076df1ab7b2",
+            "collectionId": "bd65c826f7701d1bff9358db7c0daa85",
             "rawModeData": ""
         }
     ]
