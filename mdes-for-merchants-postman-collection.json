@@ -1,5 +1,5 @@
 {
-    "id": "ec3af34125ada442710eaaeaa23bfb67",
+    "id": "2e91b74b1472ceebba7be9574c0c7867",
     "name": "MDES for Merchants",
     "description": null,
     "auth": null,
@@ -10,7 +10,7 @@
     "folders": [],
     "requests": [
         {
-            "id": "a786d791c5e62bf0369921b1b6a1f27d",
+            "id": "c25b5620822c27542fe8df12ae79d5c7",
             "name": "Digitize Token",
             "url": "http:\/\/api.mastercard.com\/mdes\/digitization\/#env\/1\/0\/tokenize",
             "description": "Used to digitize a card to create a server-based Token. MDES will perform both card availability and eligibility checks to check that this specific card is eligible for digitization. As both availability and eligibility are combined, only a Tokenization Authorization message is sent to the issuer as part of this request to authorize the digitization. No Tokenization Eligibility message is sent. The digitization decision will be one of Approved or Declined.\n",
@@ -29,7 +29,7 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "ec3af34125ada442710eaaeaa23bfb67",
+            "collectionId": "2e91b74b1472ceebba7be9574c0c7867",
             "rawModeData": ""
         }
     ]
