@@ -1,5 +1,5 @@
 {
-    "id": "729ff85ed11cd1e247546a118da52006",
+    "id": "64f0f503bdcabf1ab495f9a88d76277f",
     "name": "Mastercard Blockchain",
     "description": null,
     "auth": null,
@@ -10,7 +10,7 @@
     "folders": [],
     "requests": [
         {
-            "id": "a33b75317d85f842ab40efdcdfb97cf7",
+            "id": "d117d663f6366c38ee49e0b6333349a5",
             "name": "Get Status",
             "url": "http:\/\/eas5stl0.mastercard.com\/z0\/core\/v1\/status",
             "description": "Gets general metadata about the current state of the blockchain network.\nUseful for building dashboards.\n",
@@ -29,11 +29,11 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "729ff85ed11cd1e247546a118da52006",
+            "collectionId": "64f0f503bdcabf1ab495f9a88d76277f",
             "rawModeData": ""
         },
         {
-            "id": "10fea541d8f6b9a9a244d834c7b4d035",
+            "id": "b8951c06b4b7578dccf2c0cee9ce345e",
             "name": "Get Node",
             "url": "http:\/\/eas5stl0.mastercard.com\/z0\/core\/v1\/node",
             "description": "By default, this call gets information about your local node and its\nconnections. The `scope` parameter enabled this query to be extended\nto get further information about nodes that are visible to your node.\n",
@@ -60,11 +60,11 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "729ff85ed11cd1e247546a118da52006",
+            "collectionId": "64f0f503bdcabf1ab495f9a88d76277f",
             "rawModeData": ""
         },
         {
-            "id": "77a6e7ec0f1a8e78bf0da9466dd822f8",
+            "id": "7e5658889db5698a0664fb93bc146d25",
             "name": "Get Node Address",
             "url": "http:\/\/eas5stl0.mastercard.com\/z0\/core\/v1\/node\/{address}",
             "description": "Information about a specific node may be retrieved by its address.\nThis is useful when navigating the network.\n",
@@ -91,11 +91,11 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "729ff85ed11cd1e247546a118da52006",
+            "collectionId": "64f0f503bdcabf1ab495f9a88d76277f",
             "rawModeData": ""
         },
         {
-            "id": "c359cc377193b1a4ebfbeb6158466e16",
+            "id": "36923176f82f26cd2f25d89f9f7cb60d",
             "name": "Get App",
             "url": "http:\/\/eas5stl0.mastercard.com\/z0\/core\/v1\/app\/{id}",
             "description": "Information about an application referenced by the `id` parameter. If\nyou are permissioned to that application, this will also return the\nmessage definitions you will need to comply with to issue valid transaction\nentries for that application.\n",
@@ -122,11 +122,11 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "729ff85ed11cd1e247546a118da52006",
+            "collectionId": "64f0f503bdcabf1ab495f9a88d76277f",
             "rawModeData": ""
         },
         {
-            "id": "5e867e7fb2a2de8076c7f8e1c7e7b646",
+            "id": "7b94bca54c87563a5f1070365990822f",
             "name": "Post App",
             "url": "http:\/\/eas5stl0.mastercard.com\/z0\/core\/v1\/app\/{id}",
             "description": "When you are permissioned onto the network, you will be issued one or\nmore `id`s to use. You may then send or update configurations of the\ntransaction message types you wish to use. These are specified using\nProtocol Buffer version 3 files as specified\n[here](https:\/\/developers.google.com\/protocol-buffers\/docs\/proto3)\nThis specification may be sent either as the canonical JSON transform\nor the native `.proto` file encoded as hex, base58 or base64.\n",
@@ -153,7 +153,7 @@
             "responses": [],
             "currentHelper": null,
             "helperAttributes": null,
-            "collectionId": "729ff85ed11cd1e247546a118da52006",
+            "collectionId": "64f0f503bdcabf1ab495f9a88d76277f",
             "rawModeData": ""
         }
     ]
