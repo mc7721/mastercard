@@ -22,8 +22,8 @@
         "target",
         "webhook implementations"
     ],
-    "created": "2019-12-19",
-    "modified": "2019-12-19",
+    "created": "2019-12-21",
+    "modified": "2019-12-21",
     "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/mastercard\/master\/apis.json",
     "specificationVersion": "0.14",
     "apis": [
@@ -37,15 +37,11 @@
             "properties": [
                 {
                     "type": "x-openapi",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mastercard-openapi.json"
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/mastercard\/master\/mastercard-openapi.json"
                 },
                 {
                     "type": "x-openapi",
                     "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/mastercard.json"
-                },
-                {
-                    "type": "x-postman-collecction",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mastercard-postman-collection.json"
                 }
             ]
         },
@@ -59,15 +55,11 @@
             "properties": [
                 {
                     "type": "x-openapi",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/qkr-api-openapi.json"
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/mastercard\/master\/qkr-api-openapi.json"
                 },
                 {
                     "type": "x-openapi",
                     "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/qkr-api.json"
-                },
-                {
-                    "type": "x-postman-collecction",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/qkr-api-postman-collection.json"
                 }
             ]
         },
@@ -81,15 +73,11 @@
             "properties": [
                 {
                     "type": "x-openapi",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/masterpass-checkout-api-openapi.json"
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/mastercard\/master\/masterpass-checkout-api-openapi.json"
                 },
                 {
                     "type": "x-openapi",
                     "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/masterpass-checkout-api.json"
-                },
-                {
-                    "type": "x-postman-collecction",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/masterpass-checkout-api-postman-collection.json"
                 }
             ]
         },
@@ -103,15 +91,11 @@
             "properties": [
                 {
                     "type": "x-openapi",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mastercard-blockchain-openapi.json"
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/mastercard\/master\/mastercard-blockchain-openapi.json"
                 },
                 {
                     "type": "x-openapi",
                     "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/mastercard-blockchain.json"
-                },
-                {
-                    "type": "x-postman-collecction",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mastercard-blockchain-postman-collection.json"
                 }
             ]
         },
@@ -125,21 +109,21 @@
             "properties": [
                 {
                     "type": "x-openapi",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mdes-for-merchants-openapi.json"
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/mastercard\/master\/mdes-for-merchants-openapi.json"
                 },
                 {
                     "type": "x-openapi",
                     "url": "http:\/\/kinlane-productions.s3.amazonaws.com\/api-evangelist-site\/company\/openapis\/mdes-for-merchants.json"
-                },
-                {
-                    "type": "x-postman-collecction",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/mdes-for-merchants-postman-collection.json"
                 }
             ]
         }
     ],
     "include": [],
     "x-common": [
+        {
+            "type": "APIs.json",
+            "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/apis.json"
+        },
         {
             "type": "Base",
             "url": "https:\/\/api.simplify.com"
